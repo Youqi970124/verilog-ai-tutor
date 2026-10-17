@@ -1,0 +1,68 @@
+{
+  "_note": "Human-written inputs to the authoring agent for the 9 problems VerilogEval does not cover. Port names and widths match HDLBits so learners can reuse their HDLBits answers; all wording is our own. Review before running the agent.",
+  "problems": {
+    "module": {
+      "outline": "Instantiate the provided module mod_a once and connect it to the top-level ports.",
+      "given": "module mod_a(input in1, input in2, output out)",
+      "given_behaviour_hint": "Make mod_a non-commutative (for example out = in1 & ~in2) so swapped connections are caught.",
+      "top": "module top_module(input a, input b, output out)",
+      "require_instances": {"mod_a": 1}
+    },
+    "module_pos": {
+      "outline": "Instantiate mod_a and connect its ports by position: out1, out2, then a, b, c, d.",
+      "given": "module mod_a(output, output, input, input, input, input)",
+      "given_behaviour_hint": "Every input must affect the outputs differently so any misordered connection is caught.",
+      "top": "module top_module(input a, input b, input c, input d, output out1, output out2)",
+      "require_instances": {"mod_a": 1}
+    },
+    "module_name": {
+      "outline": "Instantiate mod_a and connect its ports by name; mod_a declares its ports in a different order from top_module.",
+      "given": "module mod_a(output out1, output out2, input in1, input in2, input in3, input in4)",
+      "given_behaviour_hint": "Every input must affect the outputs differently so any misnamed connection is caught.",
+      "top": "module top_module(input a, input b, input c, input d, output out1, output out2)",
+      "require_instances": {"mod_a": 1}
+    },
+    "module_shift": {
+      "outline": "Chain three instances of the provided D flip-flop my_dff into a 3-stage shift register.",
+      "given": "module my_dff(input clk, input d, output q)",
+      "top": "module top_module(input clk, input d, output q)",
+      "clocked": true,
+      "require_instances": {"my_dff": 3}
+    },
+    "module_shift8": {
+      "outline": "Chain three my_dff8 instances; sel picks how many clock cycles of delay reach q (0, 1, 2 or 3).",
+      "given": "module my_dff8(input clk, input [7:0] d, output [7:0] q)",
+      "top": "module top_module(input clk, input [7:0] d, input [1:0] sel, output [7:0] q)",
+      "clocked": true,
+      "require_instances": {"my_dff8": 3}
+    },
+    "module_add": {
+      "outline": "Build a 32-bit adder from two provided 16-bit adders; the low half's carry feeds the high half and the final carry is dropped.",
+      "given": "module add16(input [15:0] a, input [15:0] b, input cin, output [15:0] sum, output cout)",
+      "top": "module top_module(input [31:0] a, input [31:0] b, output [31:0] sum)",
+      "directed_hint": "Include vectors where the low half carries out, e.g. a = 32'h0000FFFF, b = 1.",
+      "require_instances": {"add16": 2}
+    },
+    "module_fadd": {
+      "outline": "Same 32-bit adder as module_add, but the learner also writes the 1-bit full adder add1 that the provided add16 is built from.",
+      "given": "module add16(input [15:0] a, input [15:0] b, input cin, output [15:0] sum, output cout), built from 16 instances of the learner's add1",
+      "learner_writes": "module add1(input a, input b, input cin, output sum, output cout)",
+      "top": "module top_module(input [31:0] a, input [31:0] b, output [31:0] sum)",
+      "require_instances": {"add16": 2}
+    },
+    "module_cseladd": {
+      "outline": "Build a 32-bit carry-select adder: one add16 for the low half, two add16 computing the high half with carry-in 0 and 1, and a 2-to-1 mux picking the high half by the low half's carry-out.",
+      "given": "module add16(input [15:0] a, input [15:0] b, input cin, output [15:0] sum, output cout)",
+      "top": "module top_module(input [31:0] a, input [31:0] b, output [31:0] sum)",
+      "directed_hint": "Include vectors where the low half carries out and where it does not.",
+      "require_instances": {"add16": 3}
+    },
+    "module_addsub": {
+      "outline": "Build a 32-bit adder-subtractor from two add16: when sub is 1, invert b with XOR against sub replicated to 32 bits and feed sub in as the low carry-in.",
+      "given": "module add16(input [15:0] a, input [15:0] b, input cin, output [15:0] sum, output cout)",
+      "top": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum)",
+      "directed_hint": "Must include a = 5, b = 3, sub = 1 (catches b ^ sub without replication: result 8 instead of 2), plus sub = 0 cases.",
+      "require_instances": {"add16": 2}
+    }
+  }
+}

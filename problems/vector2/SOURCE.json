@@ -1,0 +1,7 @@
+{
+  "source": "NVlabs/verilog-eval (MIT License)",
+  "url": "https://github.com/NVlabs/verilog-eval",
+  "commit": "c498220d0a52248f8e3fdffe279075215bde2da6",
+  "problem": "Prob004_vector2",
+  "task": "spec-to-rtl"
+}

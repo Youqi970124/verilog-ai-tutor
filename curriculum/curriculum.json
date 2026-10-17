@@ -1,0 +1,83 @@
+{
+  "name": "Wire-to-Adder",
+  "description": "From a single wire to a 32-bit adder-subtractor: the first 28 HDLBits problems, in HDLBits order.",
+  "hdlbits_base_url": "https://hdlbits.01xz.net/wiki/",
+  "stages": [
+    {
+      "id": 1,
+      "title": "Wires",
+      "problems": [
+        {"slug": "step_one", "title": "Getting Started", "verilogeval": "Prob003_step_one", "concepts": ["module_ports", "assign"]},
+        {"slug": "zero", "title": "Output Zero", "verilogeval": "Prob001_zero", "concepts": ["assign"]},
+        {"slug": "wire", "title": "Simple wire", "verilogeval": "Prob007_wire", "concepts": ["assign"]},
+        {"slug": "wire4", "title": "Four wires", "verilogeval": "Prob059_wire4", "concepts": ["multi_assign"]}
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Gates",
+      "problems": [
+        {"slug": "notgate", "title": "Inverter", "verilogeval": "Prob005_notgate", "concepts": ["bitwise_ops"]},
+        {"slug": "andgate", "title": "AND gate", "verilogeval": "Prob014_andgate", "concepts": ["bitwise_ops"]},
+        {"slug": "norgate", "title": "NOR gate", "verilogeval": "Prob011_norgate", "concepts": ["bitwise_ops"]},
+        {"slug": "xnorgate", "title": "XNOR gate", "verilogeval": "Prob012_xnorgate", "concepts": ["bitwise_ops"]},
+        {"slug": "wire_decl", "title": "Declaring wires", "verilogeval": "Prob077_wire_decl", "concepts": ["internal_wire"]},
+        {"slug": "7458", "title": "7458 chip", "verilogeval": "Prob081_7458", "concepts": ["internal_wire", "bitwise_ops"]}
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Vectors",
+      "problems": [
+        {"slug": "vector0", "title": "Vectors", "verilogeval": "Prob032_vector0", "concepts": ["vector_decl", "part_select"]},
+        {"slug": "vector1", "title": "Vectors in more detail", "verilogeval": "Prob015_vector1", "concepts": ["vector_decl", "part_select"]},
+        {"slug": "vector2", "title": "Vector part select", "verilogeval": "Prob004_vector2", "concepts": ["part_select", "concat"]}
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Vector operators",
+      "problems": [
+        {"slug": "vectorgates", "title": "Bitwise operators", "verilogeval": "Prob044_vectorgates", "concepts": ["bitwise_vs_logical"]},
+        {"slug": "gates4", "title": "Four-input gates", "verilogeval": "Prob051_gates4", "concepts": ["multi_input_gates"]}
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Concatenation and replication",
+      "problems": [
+        {"slug": "vector3", "title": "Vector concatenation operator", "verilogeval": "Prob064_vector3", "concepts": ["concat"]},
+        {"slug": "vectorr", "title": "Vector reversal 1", "verilogeval": "Prob006_vectorr", "concepts": ["reversal"]},
+        {"slug": "vector4", "title": "Replication operator", "verilogeval": "Prob042_vector4", "concepts": ["replication", "sign_extend"]},
+        {"slug": "vector5", "title": "More replication", "verilogeval": "Prob043_vector5", "concepts": ["replication"]}
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Module instances",
+      "problems": [
+        {"slug": "module", "title": "Modules", "verilogeval": null, "concepts": ["instantiation"]},
+        {"slug": "module_pos", "title": "Connecting ports by position", "verilogeval": null, "concepts": ["port_by_position"]},
+        {"slug": "module_name", "title": "Connecting ports by name", "verilogeval": null, "concepts": ["port_by_name"]}
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Chaining modules",
+      "problems": [
+        {"slug": "module_shift", "title": "Three modules", "verilogeval": null, "concepts": ["chaining"]},
+        {"slug": "module_shift8", "title": "Modules and vectors", "verilogeval": null, "concepts": ["chaining", "mux"]}
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Adders",
+      "problems": [
+        {"slug": "module_add", "title": "Adder 1", "verilogeval": null, "concepts": ["instantiation", "carry_chain"]},
+        {"slug": "module_fadd", "title": "Adder 2", "verilogeval": null, "concepts": ["full_adder", "carry_chain"]},
+        {"slug": "module_cseladd", "title": "Carry-select adder", "verilogeval": null, "concepts": ["carry_select", "mux"]},
+        {"slug": "module_addsub", "title": "Adder-subtractor", "verilogeval": null, "concepts": ["add_sub", "replication"]}
+      ]
+    }
+  ]
+}

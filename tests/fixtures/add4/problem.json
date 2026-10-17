@@ -1,0 +1,11 @@
+{
+  "slug": "add4_fixture",
+  "interface": {
+    "inputs": [{"name": "a", "width": 4}, {"name": "b", "width": 4}],
+    "outputs": [{"name": "sum", "width": 4}, {"name": "cout", "width": 1}],
+    "clock": false
+  },
+  "directed": [{"a": 3, "b": 1}, {"a": 15, "b": 1}],
+  "random_samples": 100,
+  "require_instances": {"add2": 2}
+}
