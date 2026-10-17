@@ -35,6 +35,14 @@ SYSTEM = ("You are an expert digital designer. Answer with one complete Verilog 
           "inside a single ```verilog code block. Do not include a testbench.")
 
 
+def _dotenv() -> dict[str, str]:
+    path = ROOT / ".env"  # git-ignored
+    if not path.is_file():
+        return {}
+    pairs = (line.split("=", 1) for line in path.read_text().splitlines() if "=" in line and not line.startswith("#"))
+    return {k.strip(): v.strip().strip("\"'") for k, v in pairs}
+
+
 def extract_verilog(text: str) -> str | None:
     blocks = re.findall(r"```(?:verilog|systemverilog|sv)?\s*\n(.*?)```", text, flags=re.S)
     for block in reversed(blocks):
@@ -67,9 +75,9 @@ def main() -> None:
     ap.add_argument("--problems", default="")
     args = ap.parse_args()
 
-    key = os.environ.get("NEBIUS_API_KEY")
+    key = os.environ.get("NEBIUS_API_KEY") or _dotenv().get("NEBIUS_API_KEY")
     if not key:
-        sys.exit("Set NEBIUS_API_KEY first.")
+        sys.exit("Set NEBIUS_API_KEY, or put NEBIUS_API_KEY=... in .env at the repo root.")
     clients = [OpenAI(base_url=u, api_key=key) for u in dict.fromkeys(BASE_URLS)]
 
     curriculum = json.loads((ROOT / "curriculum" / "curriculum.json").read_text())
