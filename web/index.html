@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wire-to-Adder</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f5bbf'/%3E%3Cpath d='M5 20h7l3-8h12' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Wire-to-Adder home">wire <span class="arrow">→</span> adder</a>
+  <div class="summary" id="summary" aria-live="polite"></div>
+  <label class="explore"><input type="checkbox" id="explore"> Unlock all stages</label>
+</header>
+
+<div class="layout">
+  <details class="map-box" id="map-box">
+    <summary id="map-summary">Stages</summary>
+    <nav class="map" id="map" aria-label="Stages and problems"></nav>
+  </details>
+
+  <main class="main" id="main">
+    <section class="problem" id="problem">
+      <div class="eyebrow" id="p-stage"></div>
+      <h1 id="p-title">Loading…</h1>
+      <div class="p-meta" id="p-meta"></div>
+      <div class="spec" id="p-spec"></div>
+      <div class="given" id="p-given" hidden></div>
+    </section>
+
+    <section class="editor-block" id="editor-block">
+      <div class="editor-head">
+        <span class="editor-label">Your design</span>
+        <button class="ghost" id="reset" type="button">Reset to template</button>
+      </div>
+      <textarea id="code" spellcheck="false" aria-label="Verilog code"></textarea>
+      <div class="actions">
+        <button class="primary" id="submit" type="button">Run simulation</button>
+        <span class="kbd">Ctrl + Enter</span>
+        <span class="busy" id="busy" hidden>Simulating…</span>
+      </div>
+    </section>
+
+    <section class="result" id="result" hidden aria-live="polite">
+      <div class="verdict">
+        <span class="pill" id="r-pill"></span>
+        <span class="r-summary" id="r-summary"></span>
+      </div>
+      <div class="compile" id="r-compile" hidden></div>
+      <ul class="warnings" id="r-warnings" hidden></ul>
+      <figure class="wave-fig" id="r-wave" hidden>
+        <div class="radix" role="group" aria-label="Number format">
+          <button type="button" data-radix="dec">dec</button><button type="button" data-radix="hex">hex</button><button type="button" data-radix="bin">bin</button>
+        </div>
+        <div class="wave-wrap"><div class="wave" id="wave"></div></div>
+        <figcaption>The last column is the first sample where your circuit and the reference disagree.</figcaption>
+      </figure>
+      <div class="ladder" id="ladder">
+        <div class="ladder-head">
+          <h2>Hints</h2>
+          <p>Each step tells you a little more. Try to fix it before opening the next one.</p>
+        </div>
+        <div class="ladder-buttons" id="ladder-buttons"></div>
+        <div class="hint-body" id="hint-body"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/verilog/verilog.min.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

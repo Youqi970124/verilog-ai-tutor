@@ -113,7 +113,11 @@ def fmt_value(value: str | None, width: int) -> str:
     if any(c in value for c in "xz"):
         return f"{width}'b{value}" if width <= 8 else "unknown (x)"
     n = int(value, 2)
-    return f"{n} ({width}'b{value})" if 1 < width <= 8 else str(n)
+    if 1 < width <= 8:
+        return f"{n} ({width}'b{value})"
+    if width > 8 and n >= 256:  # hex shows sign bits and patterns that decimal hides
+        return f"{n} ({width}'h{n:x})"
+    return str(n)
 
 
 def counterexample(result: GradeResult) -> dict | None:
