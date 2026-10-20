@@ -1,0 +1,115 @@
+{
+  "_note": "Short concept notes used for L0 hints and concept cards. Examples deliberately use other names and widths than the problems, so they teach without solving.",
+  "concepts": {
+    "module_ports": {
+      "title": "Modules and ports",
+      "note": "A module is a box with named inputs and outputs. Everything you build lives between `module` and `endmodule`, and the port list says what goes in and out.",
+      "example": "module blinker(input clk, output led);\n  // circuit goes here\nendmodule"
+    },
+    "assign": {
+      "title": "Continuous assignment",
+      "note": "`assign` connects a wire to an expression permanently. It is a physical connection, not a one-time copy: whenever the right side changes, the left side follows.",
+      "example": "assign ready = 1'b1;\nassign y = x;"
+    },
+    "multi_assign": {
+      "title": "Several outputs",
+      "note": "Each output needs its own driver. Write one `assign` per output; their order does not matter because they all act at the same time.",
+      "example": "assign p = m;\nassign q = n;"
+    },
+    "bitwise_ops": {
+      "title": "Gates as operators",
+      "note": "`~` is NOT, `&` is AND, `|` is OR, `^` is XOR. NOR, NAND and XNOR are a gate followed by `~`, for example `~(m | n)`.",
+      "example": "assign nand_out = ~(m & n);"
+    },
+    "internal_wire": {
+      "title": "Internal wires",
+      "note": "Declare a `wire` to name an intermediate signal inside the module. It is not a port, so the outside world never sees it, but it makes larger circuits readable.",
+      "example": "wire t;\nassign t = m & n;\nassign y = t | k;"
+    },
+    "vector_decl": {
+      "title": "Declaring vectors",
+      "note": "`[7:0]` declares 8 bits numbered 7 down to 0. The first number is the most significant bit. Declaring `[0:7]` reverses which end is bit 0.",
+      "example": "wire [3:0] nibble;   // nibble[3] is the MSB"
+    },
+    "part_select": {
+      "title": "Selecting bits",
+      "note": "`v[3]` picks one bit and `v[7:4]` picks a range. Count carefully: `v[7:4]` is 4 bits, and the indices must stay inside the declared range.",
+      "example": "assign top_nibble = word[15:12];"
+    },
+    "bitwise_vs_logical": {
+      "title": "Bitwise versus logical",
+      "note": "`|` works bit by bit and keeps the width. `||` asks whether either side is non-zero and returns a single bit. On multi-bit vectors they give different answers.",
+      "example": "// 4'b0101 | 4'b0010 is 4'b0111\n// 4'b0101 || 4'b0010 is 1'b1"
+    },
+    "multi_input_gates": {
+      "title": "Wide gates",
+      "note": "A gate with many inputs is the operator applied across all of them. A reduction operator such as `&v` ANDs every bit of `v` together.",
+      "example": "assign all_ones = &flags;   // AND of every bit"
+    },
+    "concat": {
+      "title": "Concatenation",
+      "note": "`{p, q}` glues signals side by side. The first item becomes the most significant bits. Concatenation also works on the left side of an assignment.",
+      "example": "assign packed = {hi_byte, lo_byte};\nassign {carry, total} = m + n;"
+    },
+    "reversal": {
+      "title": "Reversing bit order",
+      "note": "Reversing means bit 0 goes to the top and the top bit goes to bit 0. With few bits, a concatenation of single bits in the opposite order does it.",
+      "example": "assign flipped = {s[0], s[1], s[2]};"
+    },
+    "replication": {
+      "title": "Replication",
+      "note": "`{N{x}}` repeats `x` N times. It is the clean way to make a wide signal from one bit. A 1-bit signal used with a 32-bit one is otherwise padded with zeros, not copied.",
+      "example": "assign mask = {16{enable}};   // 16 copies of enable"
+    },
+    "sign_extend": {
+      "title": "Sign extension",
+      "note": "To widen a signed number, copy its top bit into the new upper bits. Filling with zeros turns negative numbers into large positive ones.",
+      "example": "assign wide = {{4{n[3]}}, n};   // 4-bit to 8-bit"
+    },
+    "instantiation": {
+      "title": "Using another module",
+      "note": "Instantiating a module places a copy of it in your circuit: write the module name, a name for this copy, then the connections.",
+      "example": "counter c0 (.clk(clk), .count(value));"
+    },
+    "port_by_position": {
+      "title": "Connecting by position",
+      "note": "Without names, connections are matched to ports in the order the module declares them. Check the declaration order, not the order you would like.",
+      "example": "// declared as: module box(output o, input i1, input i2);\nbox b0 (y, m, n);"
+    },
+    "port_by_name": {
+      "title": "Connecting by name",
+      "note": "`.port(signal)` connects by name, so order no longer matters. It is safer and easier to read than positional connections.",
+      "example": "box b1 (.i2(n), .o(y), .i1(m));"
+    },
+    "chaining": {
+      "title": "Chaining modules",
+      "note": "The output of one instance can feed the input of the next through an internal wire. Each flip-flop in a chain adds one clock cycle of delay.",
+      "example": "wire w1;\nstage s0 (.d(in), .q(w1));\nstage s1 (.d(w1), .q(out));"
+    },
+    "mux": {
+      "title": "Choosing with a multiplexer",
+      "note": "A multiplexer passes one of several inputs depending on a select signal. The `? :` operator is a 2-to-1 mux; a `case` statement handles more inputs.",
+      "example": "assign y = sel ? m : n;"
+    },
+    "carry_chain": {
+      "title": "Carry chain",
+      "note": "When adding wide numbers in pieces, the carry-out of the lower piece must become the carry-in of the next one. The lowest carry-in is 0 for plain addition.",
+      "example": "wire c;\nadd8 lo (.cin(1'b0), .cout(c) /* ... */);\nadd8 hi (.cin(c) /* ... */);"
+    },
+    "full_adder": {
+      "title": "Full adder",
+      "note": "A full adder adds three bits: two inputs and a carry-in. It produces a sum bit and a carry-out. The sum is the XOR of all three; the carry is 1 when at least two inputs are 1.",
+      "example": "// a 2-input half adder:\nassign s = m ^ n;\nassign c = m & n;"
+    },
+    "carry_select": {
+      "title": "Carry-select adder",
+      "note": "To avoid waiting for the low carry, compute the high half twice, once assuming carry-in 0 and once assuming 1, then pick the right result when the real carry arrives.",
+      "example": "assign high = carry ? high_if_one : high_if_zero;"
+    },
+    "add_sub": {
+      "title": "Subtracting with an adder",
+      "note": "In two's complement, m - n equals m + ~n + 1. An adder can therefore subtract if you invert n and set the carry-in to 1 when subtracting.",
+      "example": "// 4-bit: 6 - 2 = 6 + 4'b1101 + 1 = 4 (carry dropped)"
+    }
+  }
+}

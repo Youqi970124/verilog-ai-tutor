@@ -1,0 +1,12 @@
+{
+  "slug": "addsub_fixture",
+  "interface": {
+    "inputs": [{"name": "a", "width": 32}, {"name": "b", "width": 32}, {"name": "sub", "width": 1}],
+    "outputs": [{"name": "sum", "width": 32}],
+    "clock": false
+  },
+  "directed": [{"a": 5, "b": 3, "sub": 0}, {"a": 5, "b": 3, "sub": 1}, {"a": 65535, "b": 1, "sub": 0}],
+  "random_samples": 100,
+  "require_instances": {"add16": 2},
+  "hints": {"L0": "Subtraction is addition of the two's complement.", "L3": "Invert every bit of b when sub is 1, and use sub as the first carry-in."}
+}
