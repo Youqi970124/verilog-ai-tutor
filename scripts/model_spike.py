@@ -98,10 +98,13 @@ def main() -> None:
                 row.update(meta)
                 code = extract_verilog(text)
                 if code is None:
-                    row.update(status="no_code", category="-")
+                    row.update(status="no_code", category="-", reply=text[:4000])
                 else:
                     res = grader.grade(ROOT / "problems" / slug, code)
                     row.update(status=res.status, category=res.category, mismatches=res.mismatches)
+                    if not res.passed:  # keep what failed; temperature 0 is not deterministic here
+                        log = (res.compile_log + res.sim_log).splitlines()
+                        row.update(code=code, log=[l for l in log if "Hint" in l or "error" in l.lower()][:20])
             except Exception as exc:
                 row.update(status="api_error", category="-", error=str(exc)[:300])
             rows.append(row)
