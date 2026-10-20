@@ -1,0 +1,65 @@
+[
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 7,
+    "before": "{out[0],out[1],out[2],out[3],out[4],out[5],out[6],out[7]}",
+    "after": "{out[1], out[0],out[2],out[3],out[4],out[5],out[6],out[7]}",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [7:0] out\n);\n\n  assign {out[1], out[0],out[2],out[3],out[4],out[5],out[6],out[7]} = in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "index_off_by_one",
+    "concept": "part_select",
+    "line": 7,
+    "before": "[0]",
+    "after": "[1]",
+    "detail": "other compile error",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [7:0] out\n);\n\n  assign {out[1],out[1],out[2],out[3],out[4],out[5],out[6],out[7]} = in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "index_off_by_one",
+    "concept": "part_select",
+    "line": 7,
+    "before": "[1]",
+    "after": "[0]",
+    "detail": "other compile error",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [7:0] out\n);\n\n  assign {out[0],out[0],out[2],out[3],out[4],out[5],out[6],out[7]} = in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "index_off_by_one",
+    "concept": "part_select",
+    "line": 7,
+    "before": "[2]",
+    "after": "[1]",
+    "detail": "other compile error",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [7:0] out\n);\n\n  assign {out[0],out[1],out[1],out[3],out[4],out[5],out[6],out[7]} = in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "index_off_by_one",
+    "concept": "part_select",
+    "line": 7,
+    "before": "[3]",
+    "after": "[2]",
+    "detail": "other compile error",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [7:0] out\n);\n\n  assign {out[0],out[1],out[2],out[2],out[4],out[5],out[6],out[7]} = in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "reverse_declared_range",
+    "concept": "vector_decl",
+    "line": 4,
+    "before": "[7:0]",
+    "after": "[0:7]",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [0:7] out\n);\n\n  assign {out[0],out[1],out[2],out[3],out[4],out[5],out[6],out[7]} = in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 7,
+    "before": "  assign {out[0],out[1],out[2],out[3],out[4],out[5],out[6],out[7]} = in;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [7:0] out\n);\n\n\nendmodule\n\n"
+  }
+]

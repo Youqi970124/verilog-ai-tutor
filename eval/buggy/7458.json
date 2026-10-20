@@ -1,0 +1,110 @@
+[
+  {
+    "op": "and_to_or",
+    "concept": "bitwise_ops",
+    "line": 17,
+    "before": "&",
+    "after": "|",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p1y = |{p1a, p1b, p1c} | &{p1d, p1e, p1f};\n  assign p2y = &{p2a, p2b} | &{p2c, p2d};\n\nendmodule\n\n"
+  },
+  {
+    "op": "bitwise_to_logical",
+    "concept": "bitwise_vs_logical",
+    "line": 17,
+    "before": "&",
+    "after": "&&",
+    "detail": "syntax error",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p1y = &&{p1a, p1b, p1c} | &{p1d, p1e, p1f};\n  assign p2y = &{p2a, p2b} | &{p2c, p2d};\n\nendmodule\n\n"
+  },
+  {
+    "op": "and_to_or",
+    "concept": "bitwise_ops",
+    "line": 17,
+    "before": "&",
+    "after": "|",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p1y = &{p1a, p1b, p1c} | |{p1d, p1e, p1f};\n  assign p2y = &{p2a, p2b} | &{p2c, p2d};\n\nendmodule\n\n"
+  },
+  {
+    "op": "bitwise_to_logical",
+    "concept": "bitwise_vs_logical",
+    "line": 17,
+    "before": "&",
+    "after": "&&",
+    "detail": "syntax error",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p1y = &{p1a, p1b, p1c} | &&{p1d, p1e, p1f};\n  assign p2y = &{p2a, p2b} | &{p2c, p2d};\n\nendmodule\n\n"
+  },
+  {
+    "op": "and_to_or",
+    "concept": "bitwise_ops",
+    "line": 18,
+    "before": "&",
+    "after": "|",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p1y = &{p1a, p1b, p1c} | &{p1d, p1e, p1f};\n  assign p2y = |{p2a, p2b} | &{p2c, p2d};\n\nendmodule\n\n"
+  },
+  {
+    "op": "bitwise_to_logical",
+    "concept": "bitwise_vs_logical",
+    "line": 18,
+    "before": "&",
+    "after": "&&",
+    "detail": "syntax error",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p1y = &{p1a, p1b, p1c} | &{p1d, p1e, p1f};\n  assign p2y = &&{p2a, p2b} | &{p2c, p2d};\n\nendmodule\n\n"
+  },
+  {
+    "op": "and_to_or",
+    "concept": "bitwise_ops",
+    "line": 18,
+    "before": "&",
+    "after": "|",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p1y = &{p1a, p1b, p1c} | &{p1d, p1e, p1f};\n  assign p2y = &{p2a, p2b} | |{p2c, p2d};\n\nendmodule\n\n"
+  },
+  {
+    "op": "bitwise_to_logical",
+    "concept": "bitwise_vs_logical",
+    "line": 18,
+    "before": "&",
+    "after": "&&",
+    "detail": "syntax error",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p1y = &{p1a, p1b, p1c} | &{p1d, p1e, p1f};\n  assign p2y = &{p2a, p2b} | &&{p2c, p2d};\n\nendmodule\n\n"
+  },
+  {
+    "op": "or_to_and",
+    "concept": "bitwise_ops",
+    "line": 17,
+    "before": "|",
+    "after": "&",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p1y = &{p1a, p1b, p1c} & &{p1d, p1e, p1f};\n  assign p2y = &{p2a, p2b} | &{p2c, p2d};\n\nendmodule\n\n"
+  },
+  {
+    "op": "or_to_and",
+    "concept": "bitwise_ops",
+    "line": 18,
+    "before": "|",
+    "after": "&",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p1y = &{p1a, p1b, p1c} | &{p1d, p1e, p1f};\n  assign p2y = &{p2a, p2b} & &{p2c, p2d};\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 17,
+    "before": "  assign p1y = &{p1a, p1b, p1c} | &{p1d, p1e, p1f};\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p2y = &{p2a, p2b} | &{p2c, p2d};\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 18,
+    "before": "  assign p2y = &{p2a, p2b} | &{p2c, p2d};\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input p1a,\n  input p1b,\n  input p1c,\n  input p1d,\n  input p1e,\n  input p1f,\n  output p1y,\n  input p2a,\n  input p2b,\n  input p2c,\n  input p2d,\n  output p2y\n);\n\n  assign p1y = &{p1a, p1b, p1c} | &{p1d, p1e, p1f};\n\nendmodule\n\n"
+  }
+]

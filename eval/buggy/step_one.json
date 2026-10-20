@@ -1,0 +1,20 @@
+[
+  {
+    "op": "flip_constant",
+    "concept": "assign",
+    "line": 6,
+    "before": "1'b1",
+    "after": "1'b0",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  output one\n);\n\n  assign one = 1'b0;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 6,
+    "before": "  assign one = 1'b1;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  output one\n);\n\n\nendmodule\n\n"
+  }
+]

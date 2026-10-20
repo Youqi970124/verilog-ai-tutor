@@ -1,0 +1,11 @@
+[
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 7,
+    "before": "  assign out = in;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input in,\n  output out\n);\n\n\nendmodule\n\n"
+  }
+]

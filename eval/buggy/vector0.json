@@ -1,0 +1,29 @@
+[
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 11,
+    "before": "{o2, o1, o0}",
+    "after": "{o1, o2, o0}",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [2:0] vec,\n  output [2:0] outv,\n  output o2,\n  output o1,\n  output o0\n);\n\n  assign outv = vec;\n  assign {o1, o2, o0} = vec;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 10,
+    "before": "  assign outv = vec;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [2:0] vec,\n  output [2:0] outv,\n  output o2,\n  output o1,\n  output o0\n);\n\n  assign {o2, o1, o0} = vec;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 11,
+    "before": "  assign {o2, o1, o0} = vec;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [2:0] vec,\n  output [2:0] outv,\n  output o2,\n  output o1,\n  output o0\n);\n\n  assign outv = vec;\n\nendmodule\n\n"
+  }
+]

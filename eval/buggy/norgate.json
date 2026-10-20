@@ -1,0 +1,29 @@
+[
+  {
+    "op": "or_to_and",
+    "concept": "bitwise_ops",
+    "line": 8,
+    "before": "|",
+    "after": "&",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  output out\n);\n\n  assign out = ~(a & b);\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_not",
+    "concept": "bitwise_ops",
+    "line": 8,
+    "before": "~",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  output out\n);\n\n  assign out = (a | b);\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 8,
+    "before": "  assign out = ~(a | b);\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  output out\n);\n\n\nendmodule\n\n"
+  }
+]

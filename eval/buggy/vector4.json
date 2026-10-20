@@ -1,0 +1,56 @@
+[
+  {
+    "op": "drop_replication",
+    "concept": "replication",
+    "line": 7,
+    "before": "{24{in[7]}}",
+    "after": "in[7]",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [31:0] out\n);\n\n  assign out = { in[7], in };\n\nendmodule\n\n"
+  },
+  {
+    "op": "zero_extend",
+    "concept": "sign_extend",
+    "line": 7,
+    "before": "{24{in[7]}}",
+    "after": "24'b0",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [31:0] out\n);\n\n  assign out = { 24'b0, in };\n\nendmodule\n\n"
+  },
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 7,
+    "before": "{ {24{in[7]}}, in }",
+    "after": "{in, {24{in[7]}}}",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [31:0] out\n);\n\n  assign out = {in, {24{in[7]}}};\n\nendmodule\n\n"
+  },
+  {
+    "op": "index_off_by_one",
+    "concept": "part_select",
+    "line": 7,
+    "before": "[7]",
+    "after": "[6]",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [31:0] out\n);\n\n  assign out = { {24{in[6]}}, in };\n\nendmodule\n\n"
+  },
+  {
+    "op": "reverse_declared_range",
+    "concept": "vector_decl",
+    "line": 3,
+    "before": "[7:0]",
+    "after": "[0:7]",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [0:7] in,\n  output [31:0] out\n);\n\n  assign out = { {24{in[7]}}, in };\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 7,
+    "before": "  assign out = { {24{in[7]}}, in };\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [7:0] in,\n  output [31:0] out\n);\n\n\nendmodule\n\n"
+  }
+]

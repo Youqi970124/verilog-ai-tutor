@@ -1,0 +1,29 @@
+[
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 15,
+    "before": "{ w,x,y,z}",
+    "after": "{x, w,y,z}",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [4:0] a,\n  input [4:0] b,\n  input [4:0] c,\n  input [4:0] d,\n  input [4:0] e,\n  input [4:0] f,\n  output [7:0] w,\n  output [7:0] x,\n  output [7:0] y,\n  output [7:0] z\n);\n\n  assign {x, w,y,z} = {a,b,c,d,e,f,2'b11};\n\nendmodule\n\n"
+  },
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 15,
+    "before": "{a,b,c,d,e,f,2'b11}",
+    "after": "{b, a,c,d,e,f,2'b11}",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [4:0] a,\n  input [4:0] b,\n  input [4:0] c,\n  input [4:0] d,\n  input [4:0] e,\n  input [4:0] f,\n  output [7:0] w,\n  output [7:0] x,\n  output [7:0] y,\n  output [7:0] z\n);\n\n  assign { w,x,y,z} = {b, a,c,d,e,f,2'b11};\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 15,
+    "before": "  assign { w,x,y,z} = {a,b,c,d,e,f,2'b11};\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [4:0] a,\n  input [4:0] b,\n  input [4:0] c,\n  input [4:0] d,\n  input [4:0] e,\n  input [4:0] f,\n  output [7:0] w,\n  output [7:0] x,\n  output [7:0] y,\n  output [7:0] z\n);\n\n\nendmodule\n\n"
+  }
+]

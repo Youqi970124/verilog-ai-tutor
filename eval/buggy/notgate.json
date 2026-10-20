@@ -1,0 +1,20 @@
+[
+  {
+    "op": "drop_not",
+    "concept": "bitwise_ops",
+    "line": 7,
+    "before": "~",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input in,\n  output out\n);\n\n  assign out = in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 7,
+    "before": "  assign out = ~in;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input in,\n  output out\n);\n\n\nendmodule\n\n"
+  }
+]

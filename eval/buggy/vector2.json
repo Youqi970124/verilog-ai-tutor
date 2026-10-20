@@ -1,0 +1,65 @@
+[
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 7,
+    "before": "{in[7:0], in[15:8], in[23:16], in[31:24]}",
+    "after": "{in[15:8], in[7:0], in[23:16], in[31:24]}",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [31:0] in,\n  output [31:0] out\n);\n\n  assign out = {in[15:8], in[7:0], in[23:16], in[31:24]};\n\nendmodule\n\n"
+  },
+  {
+    "op": "reverse_declared_range",
+    "concept": "vector_decl",
+    "line": 3,
+    "before": "[31:0]",
+    "after": "[0:31]",
+    "detail": "other compile error",
+    "src": "\nmodule top_module (\n  input [0:31] in,\n  output [31:0] out\n);\n\n  assign out = {in[7:0], in[15:8], in[23:16], in[31:24]};\n\nendmodule\n\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 7,
+    "before": "[7:0]",
+    "after": "[8:1]",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [31:0] in,\n  output [31:0] out\n);\n\n  assign out = {in[8:1], in[15:8], in[23:16], in[31:24]};\n\nendmodule\n\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 7,
+    "before": "[15:8]",
+    "after": "[14:7]",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [31:0] in,\n  output [31:0] out\n);\n\n  assign out = {in[7:0], in[14:7], in[23:16], in[31:24]};\n\nendmodule\n\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 7,
+    "before": "[23:16]",
+    "after": "[22:15]",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [31:0] in,\n  output [31:0] out\n);\n\n  assign out = {in[7:0], in[15:8], in[22:15], in[31:24]};\n\nendmodule\n\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 7,
+    "before": "[31:24]",
+    "after": "[30:23]",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [31:0] in,\n  output [31:0] out\n);\n\n  assign out = {in[7:0], in[15:8], in[23:16], in[30:23]};\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 7,
+    "before": "  assign out = {in[7:0], in[15:8], in[23:16], in[31:24]};\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [31:0] in,\n  output [31:0] out\n);\n\n\nendmodule\n\n"
+  }
+]

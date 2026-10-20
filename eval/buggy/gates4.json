@@ -1,0 +1,74 @@
+[
+  {
+    "op": "and_to_or",
+    "concept": "bitwise_ops",
+    "line": 9,
+    "before": "&",
+    "after": "|",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [3:0] in,\n  output out_and,\n  output out_or,\n  output out_xor\n);\n\n  assign out_and = |in;\n  assign out_or = |in;\n  assign out_xor = ^in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "bitwise_to_logical",
+    "concept": "bitwise_vs_logical",
+    "line": 9,
+    "before": "&",
+    "after": "&&",
+    "detail": "syntax error",
+    "src": "\nmodule top_module (\n  input [3:0] in,\n  output out_and,\n  output out_or,\n  output out_xor\n);\n\n  assign out_and = &&in;\n  assign out_or = |in;\n  assign out_xor = ^in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "or_to_and",
+    "concept": "bitwise_ops",
+    "line": 10,
+    "before": "|",
+    "after": "&",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [3:0] in,\n  output out_and,\n  output out_or,\n  output out_xor\n);\n\n  assign out_and = &in;\n  assign out_or = &in;\n  assign out_xor = ^in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "bitwise_to_logical",
+    "concept": "bitwise_vs_logical",
+    "line": 10,
+    "before": "|",
+    "after": "||",
+    "detail": "syntax error",
+    "src": "\nmodule top_module (\n  input [3:0] in,\n  output out_and,\n  output out_or,\n  output out_xor\n);\n\n  assign out_and = &in;\n  assign out_or = ||in;\n  assign out_xor = ^in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "xor_to_xnor",
+    "concept": "bitwise_ops",
+    "line": 11,
+    "before": "^",
+    "after": "~^",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [3:0] in,\n  output out_and,\n  output out_or,\n  output out_xor\n);\n\n  assign out_and = &in;\n  assign out_or = |in;\n  assign out_xor = ~^in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 9,
+    "before": "  assign out_and = &in;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [3:0] in,\n  output out_and,\n  output out_or,\n  output out_xor\n);\n\n  assign out_or = |in;\n  assign out_xor = ^in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 10,
+    "before": "  assign out_or = |in;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [3:0] in,\n  output out_and,\n  output out_or,\n  output out_xor\n);\n\n  assign out_and = &in;\n  assign out_xor = ^in;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 11,
+    "before": "  assign out_xor = ^in;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input [3:0] in,\n  output out_and,\n  output out_or,\n  output out_xor\n);\n\n  assign out_and = &in;\n  assign out_or = |in;\n\nendmodule\n\n"
+  }
+]

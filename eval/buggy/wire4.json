@@ -1,0 +1,29 @@
+[
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 12,
+    "before": "{w,x,y,z}",
+    "after": "{x, w,y,z}",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  output w,\n  output x,\n  output y,\n  output z\n);\n\n  assign {x, w,y,z} = {a,b,b,c};\n\nendmodule\n\n"
+  },
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 12,
+    "before": "{a,b,b,c}",
+    "after": "{b, a,b,c}",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  output w,\n  output x,\n  output y,\n  output z\n);\n\n  assign {w,x,y,z} = {b, a,b,c};\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 12,
+    "before": "  assign {w,x,y,z} = {a,b,b,c};\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  output w,\n  output x,\n  output y,\n  output z\n);\n\n\nendmodule\n\n"
+  }
+]

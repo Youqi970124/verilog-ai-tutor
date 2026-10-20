@@ -25,13 +25,15 @@ class SafetyResult:
 
 
 def strip_comments_and_strings(src: str) -> str:
-    """Blank out comments and string literals, keeping newlines so line numbers survive."""
+    """Blank out comments and string literals. The result has the same length and
+    line breaks as the input, so positions found in it can be applied to the source."""
     out = []
     i, n = 0, len(src)
     while i < n:
         if src.startswith("//", i):
             j = src.find("\n", i)
             j = n if j == -1 else j
+            out.append(" " * (j - i))
             i = j
         elif src.startswith("/*", i):
             j = src.find("*/", i + 2)

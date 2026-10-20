@@ -1,0 +1,83 @@
+[
+  {
+    "op": "drop_not",
+    "concept": "bitwise_ops",
+    "line": 11,
+    "before": "~",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  input e,\n  output [24:0] out\n);\n\n  assign out = { {5{a}}, {5{b}}, {5{c}}, {5{d}}, {5{e}} } ^ {5{a,b,c,d,e}};\n\nendmodule\n\n"
+  },
+  {
+    "op": "xor_to_xnor",
+    "concept": "bitwise_ops",
+    "line": 11,
+    "before": "^",
+    "after": "~^",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  input e,\n  output [24:0] out\n);\n\n  assign out = ~{ {5{a}}, {5{b}}, {5{c}}, {5{d}}, {5{e}} } ~^ {5{a,b,c,d,e}};\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_replication",
+    "concept": "replication",
+    "line": 11,
+    "before": "{5{a}}",
+    "after": "a",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  input e,\n  output [24:0] out\n);\n\n  assign out = ~{ a, {5{b}}, {5{c}}, {5{d}}, {5{e}} } ^ {5{a,b,c,d,e}};\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_replication",
+    "concept": "replication",
+    "line": 11,
+    "before": "{5{b}}",
+    "after": "b",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  input e,\n  output [24:0] out\n);\n\n  assign out = ~{ {5{a}}, b, {5{c}}, {5{d}}, {5{e}} } ^ {5{a,b,c,d,e}};\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_replication",
+    "concept": "replication",
+    "line": 11,
+    "before": "{5{c}}",
+    "after": "c",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  input e,\n  output [24:0] out\n);\n\n  assign out = ~{ {5{a}}, {5{b}}, c, {5{d}}, {5{e}} } ^ {5{a,b,c,d,e}};\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_replication",
+    "concept": "replication",
+    "line": 11,
+    "before": "{5{d}}",
+    "after": "d",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  input e,\n  output [24:0] out\n);\n\n  assign out = ~{ {5{a}}, {5{b}}, {5{c}}, d, {5{e}} } ^ {5{a,b,c,d,e}};\n\nendmodule\n\n"
+  },
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 11,
+    "before": "{ {5{a}}, {5{b}}, {5{c}}, {5{d}}, {5{e}} }",
+    "after": "{{5{b}}, {5{a}}, {5{c}}, {5{d}}, {5{e}} }",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  input e,\n  output [24:0] out\n);\n\n  assign out = ~{{5{b}}, {5{a}}, {5{c}}, {5{d}}, {5{e}} } ^ {5{a,b,c,d,e}};\n\nendmodule\n\n"
+  },
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 11,
+    "before": "{a,b,c,d,e}",
+    "after": "{b, a,c,d,e}",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  input e,\n  output [24:0] out\n);\n\n  assign out = ~{ {5{a}}, {5{b}}, {5{c}}, {5{d}}, {5{e}} } ^ {5{b, a,c,d,e}};\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 11,
+    "before": "  assign out = ~{ {5{a}}, {5{b}}, {5{c}}, {5{d}}, {5{e}} } ^ {5{a,b,c,d,e}};\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  input e,\n  output [24:0] out\n);\n\n\nendmodule\n\n"
+  }
+]

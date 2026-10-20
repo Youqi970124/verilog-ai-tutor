@@ -4,7 +4,11 @@ channels:
 dependencies:
   - python=3.12
   - iverilog=12.0   # VerilogEval does not support iverilog 13
+  - yosys          # formal equivalence check for mutants that pass the testbench
   - pip
   - pip:
       - openai>=1.40
       - pytest
+      - fastapi>=0.110
+      - uvicorn>=0.29
+      - httpx

@@ -1,0 +1,74 @@
+[
+  {
+    "op": "and_to_or",
+    "concept": "bitwise_ops",
+    "line": 12,
+    "before": "&",
+    "after": "|",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  output out,\n  output out_n\n);\n\n  wire w1, w2;\n  assign w1 = a|b;\n  assign w2 = c&d;\n  assign out = w1|w2;\n  assign out_n = ~out;\n\nendmodule\n\n"
+  },
+  {
+    "op": "and_to_or",
+    "concept": "bitwise_ops",
+    "line": 13,
+    "before": "&",
+    "after": "|",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  output out,\n  output out_n\n);\n\n  wire w1, w2;\n  assign w1 = a&b;\n  assign w2 = c|d;\n  assign out = w1|w2;\n  assign out_n = ~out;\n\nendmodule\n\n"
+  },
+  {
+    "op": "or_to_and",
+    "concept": "bitwise_ops",
+    "line": 14,
+    "before": "|",
+    "after": "&",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  output out,\n  output out_n\n);\n\n  wire w1, w2;\n  assign w1 = a&b;\n  assign w2 = c&d;\n  assign out = w1&w2;\n  assign out_n = ~out;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_not",
+    "concept": "bitwise_ops",
+    "line": 15,
+    "before": "~",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  output out,\n  output out_n\n);\n\n  wire w1, w2;\n  assign w1 = a&b;\n  assign w2 = c&d;\n  assign out = w1|w2;\n  assign out_n = out;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 12,
+    "before": "  assign w1 = a&b;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  output out,\n  output out_n\n);\n\n  wire w1, w2;\n  assign w2 = c&d;\n  assign out = w1|w2;\n  assign out_n = ~out;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 13,
+    "before": "  assign w2 = c&d;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  output out,\n  output out_n\n);\n\n  wire w1, w2;\n  assign w1 = a&b;\n  assign out = w1|w2;\n  assign out_n = ~out;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 14,
+    "before": "  assign out = w1|w2;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  output out,\n  output out_n\n);\n\n  wire w1, w2;\n  assign w1 = a&b;\n  assign w2 = c&d;\n  assign out_n = ~out;\n\nendmodule\n\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 15,
+    "before": "  assign out_n = ~out;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "\nmodule top_module (\n  input a,\n  input b,\n  input c,\n  input d,\n  output out,\n  output out_n\n);\n\n  wire w1, w2;\n  assign w1 = a&b;\n  assign w2 = c&d;\n  assign out = w1|w2;\n\nendmodule\n\n"
+  }
+]

@@ -1,0 +1,163 @@
+{
+  "totals": {
+    "killed": 80,
+    "survived": 0,
+    "equivalent": 27,
+    "stillborn": 11,
+    "kill_rate": 1.0
+  },
+  "problems": {
+    "step_one": {
+      "killed": 2,
+      "survived": 0,
+      "equivalent": 0,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "zero": {
+      "killed": 2,
+      "survived": 0,
+      "equivalent": 0,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "wire": {
+      "killed": 1,
+      "survived": 0,
+      "equivalent": 0,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "wire4": {
+      "killed": 3,
+      "survived": 0,
+      "equivalent": 0,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "notgate": {
+      "killed": 2,
+      "survived": 0,
+      "equivalent": 0,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "andgate": {
+      "killed": 2,
+      "survived": 0,
+      "equivalent": 1,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "norgate": {
+      "killed": 3,
+      "survived": 0,
+      "equivalent": 1,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "xnorgate": {
+      "killed": 3,
+      "survived": 0,
+      "equivalent": 0,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "wire_decl": {
+      "killed": 8,
+      "survived": 0,
+      "equivalent": 3,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "7458": {
+      "killed": 8,
+      "survived": 0,
+      "equivalent": 4,
+      "stillborn": 4,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "vector0": {
+      "killed": 3,
+      "survived": 0,
+      "equivalent": 2,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "vector1": {
+      "killed": 2,
+      "survived": 0,
+      "equivalent": 3,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "vector2": {
+      "killed": 6,
+      "survived": 0,
+      "equivalent": 1,
+      "stillborn": 1,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "vectorgates": {
+      "killed": 8,
+      "survived": 0,
+      "equivalent": 4,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "gates4": {
+      "killed": 6,
+      "survived": 0,
+      "equivalent": 1,
+      "stillborn": 2,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "vector3": {
+      "killed": 3,
+      "survived": 0,
+      "equivalent": 4,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "vectorr": {
+      "killed": 3,
+      "survived": 0,
+      "equivalent": 1,
+      "stillborn": 4,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "vector4": {
+      "killed": 6,
+      "survived": 0,
+      "equivalent": 1,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "vector5": {
+      "killed": 9,
+      "survived": 0,
+      "equivalent": 1,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    }
+  }
+}
