@@ -10,7 +10,6 @@ Usage:
 
 import argparse
 import json
-import os
 import re
 import sys
 import time
@@ -21,26 +20,14 @@ from openai import OpenAI
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from w2a import grader  # noqa: E402
+from w2a.llm import BASE_URL, MODELS, api_key  # noqa: E402
 
-MODELS = {
-    "lightning": "nvidia/Nemotron-3_5-Lightning",
-    "super": "nvidia/nemotron-3-super-120b-a12b",
-    "ultra": "nvidia/Nemotron-3-Ultra-550b-a55b",
-}
 BASE_URLS = [
-    os.environ.get("NEBIUS_BASE_URL", "https://api.tokenfactory.nebius.com/v1/"),
+    BASE_URL,
     "https://api.tokenfactory.us-central1.nebius.com/v1/",  # the cookbook uses this for Super and Ultra
 ]
 SYSTEM = ("You are an expert digital designer. Answer with one complete Verilog module named TopModule "
           "inside a single ```verilog code block. Do not include a testbench.")
-
-
-def _dotenv() -> dict[str, str]:
-    path = ROOT / ".env"  # git-ignored
-    if not path.is_file():
-        return {}
-    pairs = (line.split("=", 1) for line in path.read_text().splitlines() if "=" in line and not line.startswith("#"))
-    return {k.strip(): v.strip().strip("\"'") for k, v in pairs}
 
 
 def extract_verilog(text: str) -> str | None:
@@ -75,7 +62,7 @@ def main() -> None:
     ap.add_argument("--problems", default="")
     args = ap.parse_args()
 
-    key = os.environ.get("NEBIUS_API_KEY") or _dotenv().get("NEBIUS_API_KEY")
+    key = api_key()
     if not key:
         sys.exit("Set NEBIUS_API_KEY, or put NEBIUS_API_KEY=... in .env at the repo root.")
     clients = [OpenAI(base_url=u, api_key=key) for u in dict.fromkeys(BASE_URLS)]
