@@ -1,5 +1,5 @@
 {
-  "name": "Wire-to-Adder",
+  "name": "Verilog AI Tutor",
   "description": "From a single wire to a 32-bit adder-subtractor: the first 28 HDLBits problems, in HDLBits order.",
   "hdlbits_base_url": "https://hdlbits.01xz.net/wiki/",
   "stages": [

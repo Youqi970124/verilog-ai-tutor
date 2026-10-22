@@ -31,7 +31,7 @@ COACH_PER_DAY = int(os.environ.get("W2A_COACH_PER_DAY", "200"))       # about $0
 COACH_MODEL = os.environ.get("W2A_COACH_MODEL", tutor.DEFAULT_MODEL)
 COACH_CACHE_SIZE = 2000
 
-app = FastAPI(title="Wire-to-Adder")
+app = FastAPI(title="Verilog AI Tutor")
 
 
 # ---------------------------------------------------------------- helpers
@@ -149,7 +149,7 @@ def problem(slug: str) -> dict:
     stage, p = _problem_meta(slug)
     base = {"slug": slug, "title": p["title"], "stage": {"id": stage["id"], "title": stage["title"]},
             "hdlbits_url": CURRICULUM["hdlbits_base_url"] + slug, "concepts": p["concepts"],
-            "source": "VerilogEval (NVIDIA, MIT)" if p["verilogeval"] else "Wire-to-Adder authoring agent"}
+            "source": "VerilogEval (NVIDIA, MIT)" if p["verilogeval"] else "Verilog AI Tutor authoring agent"}
     if not _available(slug):
         return {**base, "available": False}
     return {**base, "available": True, "spec": _spec(slug), "template": _template(slug),

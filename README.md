@@ -1,6 +1,6 @@
-# Wire-to-Adder
+# Verilog AI Tutor
 
-A Verilog coaching agent that takes a complete beginner through the first 28 [HDLBits](https://hdlbits.01xz.net/) problems, from connecting a single wire to building a 32-bit adder-subtractor. The learner writes the circuit. The simulator tests it. NVIDIA Nemotron models on Nebius Token Factory explain what went wrong and give graded hints without handing over the answer.
+An AI Verilog tutor that follows the [HDLBits](https://hdlbits.01xz.net/) problem path (unofficial; not affiliated with HDLBits). It takes a complete beginner through the first 28 problems, from connecting a single wire to building a 32-bit adder-subtractor. The learner writes the circuit. The simulator tests it. NVIDIA Nemotron models on Nebius Token Factory explain what went wrong and give graded hints without handing over the answer.
 
 Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering track.
 
@@ -89,8 +89,8 @@ uvicorn w2a.server:app --reload        # http://127.0.0.1:8000
 With Docker:
 
 ```bash
-docker build -t wire-to-adder .
-docker run --read-only --tmpfs /tmp -p 8000:8000 wire-to-adder
+docker build -t verilog-ai-tutor .
+docker run --read-only --tmpfs /tmp -p 8000:8000 verilog-ai-tutor
 ```
 
 ## Authoring and model scripts

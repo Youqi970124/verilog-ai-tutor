@@ -1,4 +1,4 @@
-# Wire-to-Adder web app. Ubuntu 24.04 ships Icarus Verilog 12, the version VerilogEval requires.
+# Verilog AI Tutor web app. Ubuntu 24.04 ships Icarus Verilog 12, the version VerilogEval requires.
 # Yosys is only needed for authoring and mutation testing, not for serving, so it is left out.
 FROM ubuntu:24.04
 
@@ -22,5 +22,5 @@ USER app
 
 EXPOSE 8000
 HEALTHCHECK CMD python3 -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"
-# Recommended: docker run --read-only --tmpfs /tmp -p 8000:8000 -e NEBIUS_API_KEY=... wire-to-adder
+# Recommended: docker run --read-only --tmpfs /tmp -p 8000:8000 -e NEBIUS_API_KEY=... verilog-ai-tutor
 CMD ["uvicorn", "w2a.server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]

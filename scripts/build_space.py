@@ -1,8 +1,8 @@
 """Copy what the web app needs into a Hugging Face Space checkout.
 
 Usage:
-    git clone https://huggingface.co/spaces/<user>/wire-to-adder ../space
-    python scripts/build_space.py ../space [--github https://github.com/<user>/wire-to-adder]
+    git clone https://huggingface.co/spaces/<user>/verilog-ai-tutor ../space
+    python scripts/build_space.py ../space [--github https://github.com/<user>/verilog-ai-tutor]
     cd ../space && git add -A && git commit -m "Deploy" && git push
 
 The Space gets the Dockerfile, the app and the problems, plus a README whose
@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 COPY = ["Dockerfile", ".dockerignore", "LICENSE", "THIRD_PARTY_NOTICES.md", "w2a", "web", "curriculum", "problems"]
 
 README = """---
-title: Wire-to-Adder
+title: Verilog AI Tutor
 emoji: 🔌
 colorFrom: blue
 colorTo: indigo
@@ -27,13 +27,13 @@ sdk: docker
 app_port: 8000
 pinned: false
 license: mit
-short_description: Verilog coach from a single wire to a 32-bit adder
+short_description: AI Verilog tutor, from a single wire to a 32-bit adder
 ---
 
-# Wire-to-Adder
+# Verilog AI Tutor
 
-A Verilog coaching agent for the first 28 [HDLBits](https://hdlbits.01xz.net/) problems, from connecting a
-single wire to building a 32-bit adder-subtractor. You write the circuit; Icarus Verilog simulates it; the
+An AI Verilog tutor that follows the first 28 [HDLBits](https://hdlbits.01xz.net/) problems (unofficial; not
+affiliated with HDLBits), from connecting a single wire to building a 32-bit adder-subtractor. You write the circuit; Icarus Verilog simulates it; the
 coach shows the first wrong sample, the lines that drive it, and hints from NVIDIA Nemotron 3 Ultra on
 Nebius Token Factory that never hand over the answer.
 

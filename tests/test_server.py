@@ -64,5 +64,5 @@ def test_rate_limit(monkeypatch):
 
 def test_index_served():
     r = client.get("/")
-    assert r.status_code == 200 and "wire" in r.text
+    assert r.status_code == 200 and "Verilog AI Tutor" in r.text
     assert client.get("/static/app.js").status_code == 200
