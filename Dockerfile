@@ -20,7 +20,10 @@ COPY --chown=app:app curriculum curriculum
 COPY --chown=app:app problems problems
 USER app
 
+# Hosts such as Render pass the port in $PORT; 8000 otherwise. WEB_CONCURRENCY sets the worker count
+# (1 fits a 512 MB free instance).
+ENV PORT=8000 WEB_CONCURRENCY=1
 EXPOSE 8000
-HEALTHCHECK CMD python3 -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"
+HEALTHCHECK CMD python3 -c "import os, urllib.request; urllib.request.urlopen(f'http://127.0.0.1:{os.environ[\"PORT\"]}/api/health')"
 # Recommended: docker run --read-only --tmpfs /tmp -p 8000:8000 -e NEBIUS_API_KEY=... verilog-ai-tutor
-CMD ["uvicorn", "w2a.server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
+CMD ["sh", "-c", "exec uvicorn w2a.server:app --host 0.0.0.0 --port \"$PORT\" --workers \"$WEB_CONCURRENCY\""]
