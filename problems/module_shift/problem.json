@@ -1,0 +1,56 @@
+{
+  "slug": "module_shift",
+  "interface": {
+    "inputs": [
+      {
+        "name": "d",
+        "width": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "q",
+        "width": 1
+      }
+    ],
+    "clock": true
+  },
+  "directed": [
+    {
+      "d": 1
+    },
+    {
+      "d": 0
+    },
+    {
+      "d": 1
+    },
+    {
+      "d": 1
+    },
+    {
+      "d": 0
+    },
+    {
+      "d": 1
+    }
+  ],
+  "random_samples": 300,
+  "require_instances": {
+    "my_dff": 3
+  },
+  "hints": {
+    "L0": "Think about how a shift register moves data through a chain of flip-flops on each clock cycle.",
+    "L3": "Connect the input d to the first flip-flop's d, the first flip-flop's q to the second flip-flop's d, the second flip-flop's q to the third flip-flop's d, and the third flip-flop's q to the output q. All flip-flops share the same clk."
+  },
+  "common_mistakes": [
+    "Forgetting to declare intermediate signals between flip-flop stages.",
+    "Connecting the flip-flops in the wrong order (e.g., output of third to input of first).",
+    "Using the same signal name for multiple flip-flop outputs causing contention.",
+    "Not using the same clock for all flip-flops."
+  ],
+  "top": "module top_module(input clk, input d, output q)",
+  "learner_writes": null,
+  "review": "assistant-reviewed",
+  "review_notes": "Checked: spec, provided modules, reference, solution, vectors and hints; no changes."
+}

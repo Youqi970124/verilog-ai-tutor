@@ -1,0 +1,58 @@
+{
+  "slug": "module_cseladd",
+  "interface": {
+    "inputs": [
+      {
+        "name": "a",
+        "width": 32
+      },
+      {
+        "name": "b",
+        "width": 32
+      }
+    ],
+    "outputs": [
+      {
+        "name": "sum",
+        "width": 32
+      }
+    ],
+    "clock": false
+  },
+  "directed": [
+    {
+      "a": 0,
+      "b": 0
+    },
+    {
+      "a": 65535,
+      "b": 0
+    },
+    {
+      "a": 65535,
+      "b": 1
+    },
+    {
+      "a": 4294967295,
+      "b": 1
+    }
+  ],
+  "random_samples": 300,
+  "require_instances": {
+    "add16": 3
+  },
+  "hints": {
+    "L0": "Think about how carry-select addition works by precomputing both possible carry-ins for the high half.",
+    "L3": "Connect the low 16 bits of a and b to the first add16 with cin=0. Connect the high 16 bits of a and b to two add16 instances: one with cin=0, one with cin=1. Use the cout from the low adder as the select signal for a 2-to-1 mux that chooses between the two high adder sums. Concatenate the low sum and the mux output to form the 32-bit sum."
+  },
+  "common_mistakes": [
+    "Forgetting to set cin=0 for the low adder.",
+    "Using the wrong carry-out as select (e.g., using high adder's carry-out).",
+    "Incorrectly concatenating the low and high sums (order of bits).",
+    "Not handling the mux correctly when the select is 1-bit."
+  ],
+  "top": "module top_module(input [31:0] a, input [31:0] b, output [31:0] sum)",
+  "learner_writes": null,
+  "review": "assistant-reviewed",
+  "review_notes": "Checked: spec, provided modules, reference, solution, vectors and hints; no changes."
+}

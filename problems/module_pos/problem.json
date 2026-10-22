@@ -1,0 +1,90 @@
+{
+  "slug": "module_pos",
+  "interface": {
+    "inputs": [
+      {
+        "name": "a",
+        "width": 1
+      },
+      {
+        "name": "b",
+        "width": 1
+      },
+      {
+        "name": "c",
+        "width": 1
+      },
+      {
+        "name": "d",
+        "width": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "out1",
+        "width": 1
+      },
+      {
+        "name": "out2",
+        "width": 1
+      }
+    ],
+    "clock": false
+  },
+  "directed": [
+    {
+      "a": 1,
+      "b": 0,
+      "c": 0,
+      "d": 0
+    },
+    {
+      "a": 0,
+      "b": 1,
+      "c": 0,
+      "d": 0
+    },
+    {
+      "a": 0,
+      "b": 0,
+      "c": 1,
+      "d": 0
+    },
+    {
+      "a": 0,
+      "b": 0,
+      "c": 0,
+      "d": 1
+    },
+    {
+      "a": 1,
+      "b": 1,
+      "c": 1,
+      "d": 1
+    },
+    {
+      "a": 1,
+      "b": 0,
+      "c": 1,
+      "d": 0
+    }
+  ],
+  "random_samples": 300,
+  "require_instances": {
+    "mod_a": 1
+  },
+  "hints": {
+    "L0": "Think about positional port mapping: the order of ports in the module declaration determines the connection when instantiating by position.",
+    "L3": "Instantiate mod_a inside top_module and list the six signals in exactly this order: out1, out2, a, b, c, d. The first two are outputs of mod_a and become top_module's outputs; the last four are inputs of mod_a and come from top_module's inputs."
+  },
+  "common_mistakes": [
+    "Reversing the two outputs (connecting out2 to first output port and out1 to second).",
+    "Swapping any of the four inputs (e.g., connecting b to the third port and a to the fourth).",
+    "Using named port mapping (e.g., .out1(out1)) instead of positional mapping, which defeats the exercise.",
+    "Forgetting to declare the mod_a instance or miscounting the number of ports."
+  ],
+  "top": "module top_module(input a, input b, input c, input d, output out1, output out2)",
+  "learner_writes": null,
+  "review": "assistant-reviewed",
+  "review_notes": "Spec: removed a sentence written for the author, not the learner."
+}

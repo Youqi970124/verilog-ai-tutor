@@ -31,8 +31,10 @@ SYSTEM = """You write Verilog practice problems for complete beginners and verif
 your output is checked by a simulator and by mutation testing, and any failure comes back to you.
 
 Reply with ONE JSON object in a ```json code block and nothing else. Keys:
-  "spec": plain-English problem statement, 60-200 words. Describe the behaviour and the provided
-          module(s) and how to connect them. Never include the solution code.
+  "spec": plain-English problem statement, 50-150 words. Say what top_module must do and what
+          each provided module does. Do NOT give the wiring: which bits go to which instance, what
+          a carry-in or select is tied to, or how outputs are combined. Working that out is the
+          exercise; the hints reveal it step by step. Never include code.
   "given_sv": Verilog source of every provided module, or "" if none.
   "ref_sv": "module RefModule(...)" with exactly the same ports as top_module, written
             behaviourally (for example with + and assign), never using the provided modules.
@@ -41,12 +43,14 @@ Reply with ONE JSON object in a ```json code block and nothing else. Keys:
   "directed": list of input assignments as integers, e.g. [{"a": 5, "b": 3}]. Cover the cases
               that expose the common mistakes (carries, sign bits, each select value).
   "hints": {"L0": one sentence naming the concept to think about,
-            "L3": structural hint in words, no code}.
+            "L3": the wiring in words (which signals connect where), still no code}.
   "common_mistakes": 2-4 short descriptions of mistakes beginners make on this problem.
 
 Rules: Verilog-2005 (logic is allowed). No system tasks ($display etc.), no `include, no initial
 blocks in ref_sv or solution_sv. Clocked logic uses posedge clk. Port names and widths must match
-the given top_module header exactly."""
+the given top_module header exactly. Declare ports ANSI-style in every module header, e.g.
+"module RefModule(input [31:0] a, output [31:0] sum);". The spec is read by the learner only:
+no notes about testing, mutation or how the provided module was chosen."""
 
 
 @dataclass

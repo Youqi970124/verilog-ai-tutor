@@ -1,9 +1,9 @@
 {
   "totals": {
-    "killed": 80,
+    "killed": 149,
     "survived": 0,
-    "equivalent": 27,
-    "stillborn": 11,
+    "equivalent": 46,
+    "stillborn": 24,
     "kill_rate": 1.0
   },
   "problems": {
@@ -156,6 +156,78 @@
       "survived": 0,
       "equivalent": 1,
       "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "module": {
+      "killed": 2,
+      "survived": 0,
+      "equivalent": 0,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "module_pos": {
+      "killed": 1,
+      "survived": 0,
+      "equivalent": 0,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "module_name": {
+      "killed": 4,
+      "survived": 0,
+      "equivalent": 0,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "module_shift": {
+      "killed": 3,
+      "survived": 0,
+      "equivalent": 0,
+      "stillborn": 1,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "module_shift8": {
+      "killed": 5,
+      "survived": 0,
+      "equivalent": 4,
+      "stillborn": 0,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "module_add": {
+      "killed": 10,
+      "survived": 0,
+      "equivalent": 3,
+      "stillborn": 3,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "module_fadd": {
+      "killed": 16,
+      "survived": 0,
+      "equivalent": 5,
+      "stillborn": 5,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "module_cseladd": {
+      "killed": 14,
+      "survived": 0,
+      "equivalent": 4,
+      "stillborn": 2,
+      "kill_rate": 1.0,
+      "survivors": []
+    },
+    "module_addsub": {
+      "killed": 14,
+      "survived": 0,
+      "equivalent": 3,
+      "stillborn": 2,
       "kill_rate": 1.0,
       "survivors": []
     }

@@ -1,0 +1,1 @@
+Build a 32-bit carry-select adder using three 16-bit adders. The low 16 bits are added with carry-in 0. The high 16 bits are added twice: once with carry-in 0 and once with carry-in 1. A 2-to-1 multiplexer selects the high 16-bit result based on the carry-out from the low adder. The final 32-bit sum concatenates the low 16 bits and the selected high 16 bits.

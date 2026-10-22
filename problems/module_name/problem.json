@@ -1,0 +1,90 @@
+{
+  "slug": "module_name",
+  "interface": {
+    "inputs": [
+      {
+        "name": "a",
+        "width": 1
+      },
+      {
+        "name": "b",
+        "width": 1
+      },
+      {
+        "name": "c",
+        "width": 1
+      },
+      {
+        "name": "d",
+        "width": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "out1",
+        "width": 1
+      },
+      {
+        "name": "out2",
+        "width": 1
+      }
+    ],
+    "clock": false
+  },
+  "directed": [
+    {
+      "a": 0,
+      "b": 0,
+      "c": 0,
+      "d": 0
+    },
+    {
+      "a": 0,
+      "b": 0,
+      "c": 1,
+      "d": 0
+    },
+    {
+      "a": 0,
+      "b": 1,
+      "c": 0,
+      "d": 1
+    },
+    {
+      "a": 1,
+      "b": 0,
+      "c": 1,
+      "d": 0
+    },
+    {
+      "a": 1,
+      "b": 1,
+      "c": 0,
+      "d": 1
+    },
+    {
+      "a": 1,
+      "b": 1,
+      "c": 1,
+      "d": 1
+    }
+  ],
+  "random_samples": 300,
+  "require_instances": {
+    "mod_a": 1
+  },
+  "hints": {
+    "L0": "Think about how to instantiate a module and connect its ports by name when the port order differs from the parent module.",
+    "L3": "Write each connection as .port(signal), for example .in1(a). With named connections the order inside the parentheses no longer matters."
+  },
+  "common_mistakes": [
+    "Connecting ports by position instead of by name, which fails because mod_a declares outputs before inputs.",
+    "Swapping the mapping of a,b,c,d to in1,in2,in3,in4 (e.g., connecting a to in2 and b to in1).",
+    "Forgetting to connect one of the inputs or outputs, leaving it floating.",
+    "Using the wrong instance name or module name in the instantiation."
+  ],
+  "top": "module top_module(input a, input b, input c, input d, output out1, output out2)",
+  "learner_writes": null,
+  "review": "assistant-reviewed",
+  "review_notes": "Spec: added the required a-d to in1-in4 mapping, which was only in L3. L3: now about named-connection syntax."
+}

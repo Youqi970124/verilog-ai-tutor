@@ -1,0 +1,47 @@
+[
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 3,
+    "before": ".clk(clk), .d(d)",
+    "after": ".clk(d), .d(clk)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input clk, input [7:0] d, input [1:0] sel, output [7:0] q);\n  wire [7:0] q1, q2, q3;\n  my_dff8 ff1 (.clk(d), .d(clk),  .q(q1));\n  my_dff8 ff2 (.clk(clk), .d(q1), .q(q2));\n  my_dff8 ff3 (.clk(clk), .d(q2), .q(q3));\n  reg [7:0] q_int;\n  always @(*) begin\n    case (sel)\n      2'd0: q_int = d;\n      2'd1: q_int = q1;\n      2'd2: q_int = q2;\n      2'd3: q_int = q3;\n    endcase\n  end\n  assign q = q_int;\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 3,
+    "before": " .d(d),  .q(q1)",
+    "after": ".d(q1), .q(d)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input clk, input [7:0] d, input [1:0] sel, output [7:0] q);\n  wire [7:0] q1, q2, q3;\n  my_dff8 ff1 (.clk(clk),.d(q1), .q(d));\n  my_dff8 ff2 (.clk(clk), .d(q1), .q(q2));\n  my_dff8 ff3 (.clk(clk), .d(q2), .q(q3));\n  reg [7:0] q_int;\n  always @(*) begin\n    case (sel)\n      2'd0: q_int = d;\n      2'd1: q_int = q1;\n      2'd2: q_int = q2;\n      2'd3: q_int = q3;\n    endcase\n  end\n  assign q = q_int;\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 4,
+    "before": ".clk(clk), .d(q1)",
+    "after": ".clk(q1), .d(clk)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input clk, input [7:0] d, input [1:0] sel, output [7:0] q);\n  wire [7:0] q1, q2, q3;\n  my_dff8 ff1 (.clk(clk), .d(d),  .q(q1));\n  my_dff8 ff2 (.clk(q1), .d(clk), .q(q2));\n  my_dff8 ff3 (.clk(clk), .d(q2), .q(q3));\n  reg [7:0] q_int;\n  always @(*) begin\n    case (sel)\n      2'd0: q_int = d;\n      2'd1: q_int = q1;\n      2'd2: q_int = q2;\n      2'd3: q_int = q3;\n    endcase\n  end\n  assign q = q_int;\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 4,
+    "before": " .d(q1), .q(q2)",
+    "after": ".d(q2), .q(q1)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input clk, input [7:0] d, input [1:0] sel, output [7:0] q);\n  wire [7:0] q1, q2, q3;\n  my_dff8 ff1 (.clk(clk), .d(d),  .q(q1));\n  my_dff8 ff2 (.clk(clk),.d(q2), .q(q1));\n  my_dff8 ff3 (.clk(clk), .d(q2), .q(q3));\n  reg [7:0] q_int;\n  always @(*) begin\n    case (sel)\n      2'd0: q_int = d;\n      2'd1: q_int = q1;\n      2'd2: q_int = q2;\n      2'd3: q_int = q3;\n    endcase\n  end\n  assign q = q_int;\nendmodule\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 15,
+    "before": "  assign q = q_int;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input clk, input [7:0] d, input [1:0] sel, output [7:0] q);\n  wire [7:0] q1, q2, q3;\n  my_dff8 ff1 (.clk(clk), .d(d),  .q(q1));\n  my_dff8 ff2 (.clk(clk), .d(q1), .q(q2));\n  my_dff8 ff3 (.clk(clk), .d(q2), .q(q3));\n  reg [7:0] q_int;\n  always @(*) begin\n    case (sel)\n      2'd0: q_int = d;\n      2'd1: q_int = q1;\n      2'd2: q_int = q2;\n      2'd3: q_int = q3;\n    endcase\n  end\nendmodule\n"
+  }
+]

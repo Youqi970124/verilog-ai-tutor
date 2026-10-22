@@ -1,0 +1,97 @@
+{
+  "slug": "module_shift8",
+  "ok": true,
+  "model": "ultra",
+  "finished": "2026-10-22T10:10:56",
+  "rounds": [
+    {
+      "n": 1,
+      "ok": false,
+      "problems": [
+        "solution_sv does not pass against ref_sv (procedural assignment to a wire). ref.sv:10: error: q is not a valid l-value in tb.good1. ref.sv:11: error: q is not a valid l-value in tb.good1. ref.sv:12: error: q is not a valid l-value in tb.good1. ref.sv:13: error: q is not a valid l-value in tb.good1. given.sv:2: error: q is not a valid l-value in tb.top_module1.ff1."
+      ],
+      "usage": {
+        "latency_s": 15.61,
+        "completion_tokens": 3991,
+        "prompt_tokens": 560,
+        "total_tokens": 4551,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 3092,
+          "rejected_prediction_tokens": null,
+          "text_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cache_write_tokens": null,
+          "cached_tokens": 0,
+          "image_tokens": null,
+          "text_tokens": null,
+          "multimodal_tokens": null
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 560
+      },
+      "mutation": null
+    },
+    {
+      "n": 2,
+      "ok": true,
+      "problems": [],
+      "usage": {
+        "latency_s": 14.74,
+        "completion_tokens": 3587,
+        "prompt_tokens": 1619,
+        "total_tokens": 5206,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 2622,
+          "rejected_prediction_tokens": null,
+          "text_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cache_write_tokens": null,
+          "cached_tokens": 0,
+          "image_tokens": null,
+          "text_tokens": null,
+          "multimodal_tokens": null
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1619
+      },
+      "mutation": {
+        "killed": 5,
+        "survived": 0,
+        "equivalent": 4,
+        "stillborn": 0,
+        "kill_rate": 1.0
+      }
+    }
+  ],
+  "survivors": [],
+  "transcript": [
+    {
+      "role": "system",
+      "content": "You write Verilog practice problems for complete beginners and verify nothing yourself:\nyour output is checked by a simulator and by mutation testing, and any failure comes back to you.\n\nReply with ONE JSON object in a ```json code block and nothing else. Keys:\n  \"spec\": plain-English problem statement, 50-150 words. Say what top_module must do and what\n          each provided module does. Do NOT give the wiring: which bits go to which instance, what\n          a carry-in or select is tied to, or how outputs are combined. Working that out is the\n          exercise; the hints reveal it step by step. Never include code.\n  \"given_sv\": Verilog source of every provided module, or \"\" if none.\n  \"ref_sv\": \"module RefModule(...)\" with exactly the same ports as top_module, written\n            behaviourally (for example with + and assign), never using the provided modules.\n  \"solution_sv\": what a good learner submits: \"module top_module(...)\" built the intended way\n                 (instantiating the provided modules), plus any module the learner must write.\n  \"directed\": list of input assignments as integers, e.g. [{\"a\": 5, \"b\": 3}]. Cover the cases\n              that expose the common mistakes (carries, sign bits, each select value).\n  \"hints\": {\"L0\": one sentence naming the concept to think about,\n            \"L3\": the wiring in words (which signals connect where), still no code}.\n  \"common_mistakes\": 2-4 short descriptions of mistakes beginners make on this problem.\n\nRules: Verilog-2005 (logic is allowed). No system tasks ($display etc.), no `include, no initial\nblocks in ref_sv or solution_sv. Clocked logic uses posedge clk. Port names and widths must match\nthe given top_module header exactly."
+    },
+    {
+      "role": "user",
+      "content": "Problem id: module_shift8\nOutline: Chain three my_dff8 instances; sel picks how many clock cycles of delay reach q (0, 1, 2 or 3).\ntop_module header: module top_module(input clk, input [7:0] d, input [1:0] sel, output [7:0] q);\nProvided module(s): module my_dff8(input clk, input [7:0] d, output [7:0] q)\nThe solution must instantiate: 3 x my_dff8\nThis problem is clocked: clk is driven by the testbench."
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"spec\": \"Create a 3-stage shift register using three 8-bit D flip-flops (my_dff8). The 2-bit sel signal selects the number of clock cycles of delay applied to the input d before it appears at output q: 0 cycles (q = d), 1 cycle (q = first flip-flop output), 2 cycles (q = second flip-flop output), or 3 cycles (q = third flip-flop output). The provided my_dff8 module is a positive-edge-triggered D flip-flop with 8-bit data input and output.\",\n  \"given_sv\": \"module my_dff8(input clk, input [7:0] d, output [7:0] q);\\n  always @(posedge clk) q <= d;\\nendmodule\",\n  \"ref_sv\": \"module RefModule(input clk, input [7:0] d, input [1:0] sel, output [7:0] q);\\n  reg [7:0] stage1, stage2, stage3;\\n  always @(posedge clk) begin\\n    stage1 <= d;\\n    stage2 <= stage1;\\n    stage3 <= stage2;\\n  end\\n  always @(*) begin\\n    case (sel)\\n      2'd0: q = d;\\n      2'd1: q = stage1;\\n      2'd2: q = stage2;\\n      2'd3: q = stage3;\\n    endcase\\n  end\\nendmodule\",\n  \"solution_sv\": \"module top_module(input clk, input [7:0] d, input [1:0] sel, output [7:0] q);\\n  wire [7:0] q1, q2, q3;\\n  my_dff8 ff1 (.clk(clk), .d(d),  .q(q1));\\n  my_dff8 ff2 (.clk(clk), .d(q1), .q(q2));\\n  my_dff8 ff3 (.clk(clk), .d(q2), .q(q3));\\n  always @(*) begin\\n    case (sel)\\n      2'd0: q = d;\\n      2'd1: q = q1;\\n      2'd2: q = q2;\\n      2'd3: q = q3;\\n    endcase\\n  end\\nendmodule\",\n  \"directed\": [\n    {\"d\": 18, \"sel\": 0},\n    {\"d\": 52, \"sel\": 1},\n    {\"d\": 86, \"sel\": 2},\n    {\"d\": 120, \"sel\": 3},\n    {\"d\": 154, \"sel\": 0},\n    {\"d\": 188, \"sel\": 1},\n    {\"d\": 222, \"sel\": 2},\n    {\"d\": 240, \"sel\": 3},\n    {\"d\": 19, \"sel\": 1},\n    {\"d\": 87, \"sel\": 2}\n  ],\n  \"hints\": {\n    \"L0\": \"Think about how a shift register works and how a multiplexer can select between different stages.\",\n    \"L3\": \"Connect the three my_dff8 instances in series: the first takes d, the second takes the first's output, the third takes the second's output. Use a case statement on sel to assign q to either d, the first flip-flop's output, the second's, or the third's.\"\n  },\n  \"common_mistakes\": [\n    \"Selecting the wrong flip-flop output for a given sel value (off-by-one).\",\n    \"Forgetting that sel=0 should bypass all flip-flops and output d directly.\",\n    \"Not chaining the flip-flops correctly (e.g., connecting all flip-flop inputs to d).\",\n    \"Misunderstanding the clocked behavior: the flip-flop outputs update only on clock edges, so the delay is in cycles.\"\n  ]\n}"
+    },
+    {
+      "role": "user",
+      "content": "Your problem failed these checks. Fix them and reply with the complete JSON object again.\n- solution_sv does not pass against ref_sv (procedural assignment to a wire). ref.sv:10: error: q is not a valid l-value in tb.good1. ref.sv:11: error: q is not a valid l-value in tb.good1. ref.sv:12: error: q is not a valid l-value in tb.good1. ref.sv:13: error: q is not a valid l-value in tb.good1. given.sv:2: error: q is not a valid l-value in tb.top_module1.ff1."
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"spec\": \"Create a 3-stage shift register using three 8-bit D flip-flops (my_dff8). The 2-bit sel signal selects the number of clock cycles of delay applied to the input d before it appears at output q: 0 cycles (q = d), 1 cycle (q = first flip-flop output), 2 cycles (q = second flip-flop output), or 3 cycles (q = third flip-flop output). The provided my_dff8 module is a positive-edge-triggered D flip-flop with 8-bit data input and output.\",\n  \"given_sv\": \"module my_dff8(input clk, input [7:0] d, output [7:0] q);\\n  reg [7:0] q_reg;\\n  always @(posedge clk) q_reg <= d;\\n  assign q = q_reg;\\nendmodule\",\n  \"ref_sv\": \"module RefModule(input clk, input [7:0] d, input [1:0] sel, output [7:0] q);\\n  reg [7:0] stage1, stage2, stage3;\\n  reg [7:0] q_int;\\n  always @(posedge clk) begin\\n    stage1 <= d;\\n    stage2 <= stage1;\\n    stage3 <= stage2;\\n  end\\n  always @(*) begin\\n    case (sel)\\n      2'd0: q_int = d;\\n      2'd1: q_int = stage1;\\n      2'd2: q_int = stage2;\\n      2'd3: q_int = stage3;\\n    endcase\\n  end\\n  assign q = q_int;\\nendmodule\",\n  \"solution_sv\": \"module top_module(input clk, input [7:0] d, input [1:0] sel, output [7:0] q);\\n  wire [7:0] q1, q2, q3;\\n  my_dff8 ff1 (.clk(clk), .d(d),  .q(q1));\\n  my_dff8 ff2 (.clk(clk), .d(q1), .q(q2));\\n  my_dff8 ff3 (.clk(clk), .d(q2), .q(q3));\\n  reg [7:0] q_int;\\n  always @(*) begin\\n    case (sel)\\n      2'd0: q_int = d;\\n      2'd1: q_int = q1;\\n      2'd2: q_int = q2;\\n      2'd3: q_int = q3;\\n    endcase\\n  end\\n  assign q = q_int;\\nendmodule\",\n  \"directed\": [\n    {\"d\": 18, \"sel\": 0},\n    {\"d\": 52, \"sel\": 1},\n    {\"d\": 86, \"sel\": 2},\n    {\"d\": 120, \"sel\": 3},\n    {\"d\": 154, \"sel\": 0},\n    {\"d\": 188, \"sel\": 1},\n    {\"d\": 222, \"sel\": 2},\n    {\"d\": 240, \"sel\": 3},\n    {\"d\": 19, \"sel\": 1},\n    {\"d\": 87, \"sel\": 2}\n  ],\n  \"hints\": {\n    \"L0\": \"Think about how a shift register works and how a multiplexer can select between different stages.\",\n    \"L3\": \"Connect the three my_dff8 instances in series: the first takes d, the second takes the first's output, the third takes the second's output. Use a case statement on sel to assign q to either d, the first flip-flop's output, the second's, or the third's.\"\n  },\n  \"common_mistakes\": [\n    \"Selecting the wrong flip-flop output for a given sel value (off-by-one).\",\n    \"Forgetting that sel=0 should bypass all flip-flops and output d directly.\",\n    \"Not chaining the flip-flops correctly (e.g., connecting all flip-flop inputs to d).\",\n    \"Misunderstanding the clocked behavior: the flip-flop outputs update only on clock edges, so the delay is in cycles.\"\n  ]\n}"
+    }
+  ]
+}

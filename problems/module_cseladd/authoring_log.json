@@ -1,0 +1,58 @@
+{
+  "slug": "module_cseladd",
+  "ok": true,
+  "model": "ultra",
+  "finished": "2026-10-22T10:11:29",
+  "rounds": [
+    {
+      "n": 1,
+      "ok": true,
+      "problems": [],
+      "usage": {
+        "latency_s": 11.09,
+        "completion_tokens": 4486,
+        "prompt_tokens": 602,
+        "total_tokens": 5088,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 3592,
+          "rejected_prediction_tokens": null,
+          "text_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cache_write_tokens": null,
+          "cached_tokens": 0,
+          "image_tokens": null,
+          "text_tokens": null,
+          "multimodal_tokens": null
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 602
+      },
+      "mutation": {
+        "killed": 14,
+        "survived": 0,
+        "equivalent": 4,
+        "stillborn": 2,
+        "kill_rate": 1.0
+      }
+    }
+  ],
+  "survivors": [],
+  "transcript": [
+    {
+      "role": "system",
+      "content": "You write Verilog practice problems for complete beginners and verify nothing yourself:\nyour output is checked by a simulator and by mutation testing, and any failure comes back to you.\n\nReply with ONE JSON object in a ```json code block and nothing else. Keys:\n  \"spec\": plain-English problem statement, 50-150 words. Say what top_module must do and what\n          each provided module does. Do NOT give the wiring: which bits go to which instance, what\n          a carry-in or select is tied to, or how outputs are combined. Working that out is the\n          exercise; the hints reveal it step by step. Never include code.\n  \"given_sv\": Verilog source of every provided module, or \"\" if none.\n  \"ref_sv\": \"module RefModule(...)\" with exactly the same ports as top_module, written\n            behaviourally (for example with + and assign), never using the provided modules.\n  \"solution_sv\": what a good learner submits: \"module top_module(...)\" built the intended way\n                 (instantiating the provided modules), plus any module the learner must write.\n  \"directed\": list of input assignments as integers, e.g. [{\"a\": 5, \"b\": 3}]. Cover the cases\n              that expose the common mistakes (carries, sign bits, each select value).\n  \"hints\": {\"L0\": one sentence naming the concept to think about,\n            \"L3\": the wiring in words (which signals connect where), still no code}.\n  \"common_mistakes\": 2-4 short descriptions of mistakes beginners make on this problem.\n\nRules: Verilog-2005 (logic is allowed). No system tasks ($display etc.), no `include, no initial\nblocks in ref_sv or solution_sv. Clocked logic uses posedge clk. Port names and widths must match\nthe given top_module header exactly."
+    },
+    {
+      "role": "user",
+      "content": "Problem id: module_cseladd\nOutline: Build a 32-bit carry-select adder: one add16 for the low half, two add16 computing the high half with carry-in 0 and 1, and a 2-to-1 mux picking the high half by the low half's carry-out.\ntop_module header: module top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\nProvided module(s): module add16(input [15:0] a, input [15:0] b, input cin, output [15:0] sum, output cout)\nThe solution must instantiate: 3 x add16\nDirected vectors: Include vectors where the low half carries out and where it does not."
+    },
+    {
+      "role": "assistant",
+      "content": "```json\n{\n  \"spec\": \"Build a 32-bit carry-select adder using three 16-bit adders. The low 16 bits are added with carry-in 0. The high 16 bits are added twice: once with carry-in 0 and once with carry-in 1. A 2-to-1 multiplexer selects the high 16-bit result based on the carry-out from the low adder. The final 32-bit sum concatenates the low 16 bits and the selected high 16 bits.\",\n  \"given_sv\": \"module add16(input [15:0] a, input [15:0] b, input cin, output [15:0] sum, output cout);\\n  assign {cout, sum} = a + b + cin;\\nendmodule\",\n  \"ref_sv\": \"module RefModule(input [31:0] a, input [31:0] b, output [31:0] sum);\\n  assign sum = a + b;\\nendmodule\",\n  \"solution_sv\": \"module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\\n  assign out = sel ? in1 : in0;\\nendmodule\\n\\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\\n  wire [15:0] low_sum;\\n  wire low_cout;\\n  wire [15:0] high_sum0, high_sum1;\\n  wire high_cout0, high_cout1;\\n  wire [15:0] high_sum_selected;\\n\\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\\n\\n  assign sum = {high_sum_selected, low_sum};\\nendmodule\",\n  \"directed\": [{\"a\": 0, \"b\": 0}, {\"a\": 65535, \"b\": 0}, {\"a\": 65535, \"b\": 1}, {\"a\": 4294967295, \"b\": 1}],\n  \"hints\": {\"L0\": \"Think about how carry-select addition works by precomputing both possible carry-ins for the high half.\", \"L3\": \"Connect the low 16 bits of a and b to the first add16 with cin=0. Connect the high 16 bits of a and b to two add16 instances: one with cin=0, one with cin=1. Use the cout from the low adder as the select signal for a 2-to-1 mux that chooses between the two high adder sums. Concatenate the low sum and the mux output to form the 32-bit sum.\"},\n  \"common_mistakes\": [\"Forgetting to set cin=0 for the low adder.\", \"Using the wrong carry-out as select (e.g., using high adder's carry-out).\", \"Incorrectly concatenating the low and high sums (order of bits).\", \"Not handling the mux correctly when the select is 1-bit.\"]\n}\n```"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 2,
+    "before": "\n    .in1(a),\n    .in2(b)",
+    "after": ".in1(b), .in2(a)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input a, input b, output out);\n  mod_a u_mod_a (.in1(b), .in2(a),\n    .out(out)\n  );\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 3,
+    "before": "\n    .in2(b),\n    .out(out)\n  ",
+    "after": ".in2(out), .out(b)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input a, input b, output out);\n  mod_a u_mod_a (\n    .in1(a),.in2(out), .out(b));\nendmodule\n"
+  }
+]

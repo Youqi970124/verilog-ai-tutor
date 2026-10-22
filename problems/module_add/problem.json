@@ -1,0 +1,66 @@
+{
+  "slug": "module_add",
+  "interface": {
+    "inputs": [
+      {
+        "name": "a",
+        "width": 32
+      },
+      {
+        "name": "b",
+        "width": 32
+      }
+    ],
+    "outputs": [
+      {
+        "name": "sum",
+        "width": 32
+      }
+    ],
+    "clock": false
+  },
+  "directed": [
+    {
+      "a": 0,
+      "b": 0
+    },
+    {
+      "a": 1,
+      "b": 1
+    },
+    {
+      "a": 65535,
+      "b": 1
+    },
+    {
+      "a": 4294967295,
+      "b": 1
+    },
+    {
+      "a": 2147483648,
+      "b": 2147483648
+    },
+    {
+      "a": 4294967295,
+      "b": 4294967295
+    }
+  ],
+  "random_samples": 300,
+  "require_instances": {
+    "add16": 2
+  },
+  "hints": {
+    "L0": "Think about how to split a 32-bit addition into two 16-bit additions with carry propagation.",
+    "L3": "Connect the low 16 bits of a and b to the first add16 with carry-in 0; feed its carry-out into the second add16's carry-in along with the high 16 bits of a and b; combine the two 16-bit sums into the 32-bit output."
+  },
+  "common_mistakes": [
+    "Forgetting to set the low adder's carry-in to 0.",
+    "Swapping the high and low halves when concatenating the sum.",
+    "Using the final carry-out as part of the sum.",
+    "Not connecting the carry-out of the low adder to the carry-in of the high adder."
+  ],
+  "top": "module top_module(input [31:0] a, input [31:0] b, output [31:0] sum)",
+  "learner_writes": null,
+  "review": "assistant-reviewed",
+  "review_notes": "Checked: spec, provided modules, reference, solution, vectors and hints; no changes."
+}

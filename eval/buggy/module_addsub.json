@@ -1,0 +1,146 @@
+[
+  {
+    "op": "xor_to_xnor",
+    "concept": "bitwise_ops",
+    "line": 3,
+    "before": "^",
+    "after": "~^",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ~^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "drop_replication",
+    "concept": "replication",
+    "line": 3,
+    "before": "{32{sub}}",
+    "after": "sub",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ sub;\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 24,
+    "before": "{sum_high, sum_low}",
+    "after": "{sum_low, sum_high}",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_low, sum_high};\nendmodule\n"
+  },
+  {
+    "op": "reverse_declared_range",
+    "concept": "vector_decl",
+    "line": 1,
+    "before": "[31:0]",
+    "after": "[0:31]",
+    "detail": "other compile error",
+    "src": "module top_module(input [0:31] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "reverse_declared_range",
+    "concept": "vector_decl",
+    "line": 2,
+    "before": "[31:0]",
+    "after": "[0:31]",
+    "detail": "other compile error",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [0:31] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 9,
+    "before": "[15:0]",
+    "after": "[16:1]",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[16:1]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 10,
+    "before": "[15:0]",
+    "after": "[16:1]",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[16:1]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 17,
+    "before": "[31:16]",
+    "after": "[30:15]",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[30:15]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 18,
+    "before": "[31:16]",
+    "after": "[30:15]",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[30:15]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 9,
+    "before": "\n    .b    (b_xor[15:0]),\n    .cin  (sub)",
+    "after": ".b(sub), .cin(b_xor[15:0])",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),.b(sub), .cin(b_xor[15:0]),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 10,
+    "before": "\n    .cin  (sub),\n    .sum  (sum_low)",
+    "after": ".cin(sum_low), .sum(sub)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),.cin(sum_low), .sum(sub),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 11,
+    "before": "\n    .sum  (sum_low),\n    .cout (carry_low)\n  ",
+    "after": ".sum(carry_low), .cout(sum_low)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),.sum(carry_low), .cout(sum_low));\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "carry_in_zero",
+    "concept": "carry_chain",
+    "line": 10,
+    "before": "\n    .cin  (sub)",
+    "after": ".cin(1'b0)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),.cin(1'b0),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "carry_in_zero",
+    "concept": "carry_chain",
+    "line": 18,
+    "before": "\n    .cin  (carry_low)",
+    "after": ".cin(1'b0)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),.cin(1'b0),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 3,
+    "before": "  assign b_xor = b ^ {32{sub}};\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\n  assign sum = {sum_high, sum_low};\nendmodule\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 24,
+    "before": "  assign sum = {sum_high, sum_low};\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum);\n  wire [31:0] b_xor;\n  assign b_xor = b ^ {32{sub}};\n\n  wire [15:0] sum_low, sum_high;\n  wire carry_low;\n\n  add16 low_adder (\n    .a    (a[15:0]),\n    .b    (b_xor[15:0]),\n    .cin  (sub),\n    .sum  (sum_low),\n    .cout (carry_low)\n  );\n\n  add16 high_adder (\n    .a    (a[31:16]),\n    .b    (b_xor[31:16]),\n    .cin  (carry_low),\n    .sum  (sum_high),\n    .cout ()\n  );\n\nendmodule\n"
+  }
+]

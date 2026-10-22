@@ -1,0 +1,97 @@
+{
+  "slug": "module_name",
+  "ok": true,
+  "model": "ultra",
+  "finished": "2026-10-22T10:10:07",
+  "rounds": [
+    {
+      "n": 1,
+      "ok": false,
+      "problems": [
+        "ref_sv: no module header found for RefModule"
+      ],
+      "usage": {
+        "latency_s": 20.33,
+        "completion_tokens": 5452,
+        "prompt_tokens": 548,
+        "total_tokens": 6000,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 4725,
+          "rejected_prediction_tokens": null,
+          "text_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cache_write_tokens": null,
+          "cached_tokens": 0,
+          "image_tokens": null,
+          "text_tokens": null,
+          "multimodal_tokens": null
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 548
+      },
+      "mutation": null
+    },
+    {
+      "n": 2,
+      "ok": true,
+      "problems": [],
+      "usage": {
+        "latency_s": 4.64,
+        "completion_tokens": 904,
+        "prompt_tokens": 1315,
+        "total_tokens": 2219,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 177,
+          "rejected_prediction_tokens": null,
+          "text_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cache_write_tokens": null,
+          "cached_tokens": 0,
+          "image_tokens": null,
+          "text_tokens": null,
+          "multimodal_tokens": null
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1315
+      },
+      "mutation": {
+        "killed": 4,
+        "survived": 0,
+        "equivalent": 0,
+        "stillborn": 0,
+        "kill_rate": 1.0
+      }
+    }
+  ],
+  "survivors": [],
+  "transcript": [
+    {
+      "role": "system",
+      "content": "You write Verilog practice problems for complete beginners and verify nothing yourself:\nyour output is checked by a simulator and by mutation testing, and any failure comes back to you.\n\nReply with ONE JSON object in a ```json code block and nothing else. Keys:\n  \"spec\": plain-English problem statement, 50-150 words. Say what top_module must do and what\n          each provided module does. Do NOT give the wiring: which bits go to which instance, what\n          a carry-in or select is tied to, or how outputs are combined. Working that out is the\n          exercise; the hints reveal it step by step. Never include code.\n  \"given_sv\": Verilog source of every provided module, or \"\" if none.\n  \"ref_sv\": \"module RefModule(...)\" with exactly the same ports as top_module, written\n            behaviourally (for example with + and assign), never using the provided modules.\n  \"solution_sv\": what a good learner submits: \"module top_module(...)\" built the intended way\n                 (instantiating the provided modules), plus any module the learner must write.\n  \"directed\": list of input assignments as integers, e.g. [{\"a\": 5, \"b\": 3}]. Cover the cases\n              that expose the common mistakes (carries, sign bits, each select value).\n  \"hints\": {\"L0\": one sentence naming the concept to think about,\n            \"L3\": the wiring in words (which signals connect where), still no code}.\n  \"common_mistakes\": 2-4 short descriptions of mistakes beginners make on this problem.\n\nRules: Verilog-2005 (logic is allowed). No system tasks ($display etc.), no `include, no initial\nblocks in ref_sv or solution_sv. Clocked logic uses posedge clk. Port names and widths must match\nthe given top_module header exactly."
+    },
+    {
+      "role": "user",
+      "content": "Problem id: module_name\nOutline: Instantiate mod_a and connect its ports by name; mod_a declares its ports in a different order from top_module.\ntop_module header: module top_module(input a, input b, input c, input d, output out1, output out2);\nProvided module(s): module mod_a(output out1, output out2, input in1, input in2, input in3, input in4)\nProvided module behaviour: Every input must affect the outputs differently so any misnamed connection is caught.\nThe solution must instantiate: 1 x mod_a"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"spec\": \"Design a top_module with four 1-bit inputs (a, b, c, d) and two 1-bit outputs (out1, out2). It must instantiate the provided module mod_a exactly once and connect all ports by name. The mod_a module has two outputs (out1, out2) and four inputs (in1, in2, in3, in4) declared in a different order. mod_a computes out1 as a multiplexer: when in1 is 1, out1 equals in2; otherwise out1 equals in3. Its out2 simply passes in4. Every input of mod_a influences the outputs in a distinct way so that any port misconnection changes the overall function.\",\n  \"given_sv\": \"module mod_a(output out1, output out2, input in1, input in2, input in3, input in4);\\n  assign out1 = in1 ? in2 : in3;\\n  assign out2 = in4;\\nendmodule\",\n  \"ref_sv\": \"module top_module(input a, input b, input c, input d, output out1, output out2);\\n  assign out1 = a ? b : c;\\n  assign out2 = d;\\nendmodule\",\n  \"solution_sv\": \"module top_module(input a, input b, input c, input d, output out1, output out2);\\n  mod_a u_mod_a (\\n    .out1(out1),\\n    .out2(out2),\\n    .in1(a),\\n    .in2(b),\\n    .in3(c),\\n    .in4(d)\\n  );\\nendmodule\",\n  \"directed\": [\n    {\"a\": 0, \"b\": 0, \"c\": 0, \"d\": 0},\n    {\"a\": 0, \"b\": 0, \"c\": 1, \"d\": 0},\n    {\"a\": 0, \"b\": 1, \"c\": 0, \"d\": 1},\n    {\"a\": 1, \"b\": 0, \"c\": 1, \"d\": 0},\n    {\"a\": 1, \"b\": 1, \"c\": 0, \"d\": 1},\n    {\"a\": 1, \"b\": 1, \"c\": 1, \"d\": 1}\n  ],\n  \"hints\": {\n    \"L0\": \"Think about how to instantiate a module and connect its ports by name when the port order differs from the parent module.\",\n    \"L3\": \"Instantiate mod_a once. Connect top_module's a to mod_a's in1, b to in2, c to in3, d to in4. Connect mod_a's out1 to top_module's out1 and mod_a's out2 to top_module's out2.\"\n  },\n  \"common_mistakes\": [\n    \"Connecting ports by position instead of by name, which fails because mod_a declares outputs before inputs.\",\n    \"Swapping the mapping of a,b,c,d to in1,in2,in3,in4 (e.g., connecting a to in2 and b to in1).\",\n    \"Forgetting to connect one of the inputs or outputs, leaving it floating.\",\n    \"Using the wrong instance name or module name in the instantiation.\"\n  ]\n}"
+    },
+    {
+      "role": "user",
+      "content": "Your problem failed these checks. Fix them and reply with the complete JSON object again.\n- ref_sv: no module header found for RefModule"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"spec\": \"Design a top_module with four 1-bit inputs (a, b, c, d) and two 1-bit outputs (out1, out2). It must instantiate the provided module mod_a exactly once and connect all ports by name. The mod_a module has two outputs (out1, out2) and four inputs (in1, in2, in3, in4) declared in a different order. mod_a computes out1 as a multiplexer: when in1 is 1, out1 equals in2; otherwise out1 equals in3. Its out2 simply passes in4. Every input of mod_a influences the outputs in a distinct way so that any port misconnection changes the overall function.\",\n  \"given_sv\": \"module mod_a(output out1, output out2, input in1, input in2, input in3, input in4);\\n  assign out1 = in1 ? in2 : in3;\\n  assign out2 = in4;\\nendmodule\",\n  \"ref_sv\": \"module RefModule(input a, input b, input c, input d, output out1, output out2);\\n  assign out1 = a ? b : c;\\n  assign out2 = d;\\nendmodule\",\n  \"solution_sv\": \"module top_module(input a, input b, input c, input d, output out1, output out2);\\n  mod_a u_mod_a (\\n    .out1(out1),\\n    .out2(out2),\\n    .in1(a),\\n    .in2(b),\\n    .in3(c),\\n    .in4(d)\\n  );\\nendmodule\",\n  \"directed\": [\n    {\"a\": 0, \"b\": 0, \"c\": 0, \"d\": 0},\n    {\"a\": 0, \"b\": 0, \"c\": 1, \"d\": 0},\n    {\"a\": 0, \"b\": 1, \"c\": 0, \"d\": 1},\n    {\"a\": 1, \"b\": 0, \"c\": 1, \"d\": 0},\n    {\"a\": 1, \"b\": 1, \"c\": 0, \"d\": 1},\n    {\"a\": 1, \"b\": 1, \"c\": 1, \"d\": 1}\n  ],\n  \"hints\": {\n    \"L0\": \"Think about how to instantiate a module and connect its ports by name when the port order differs from the parent module.\",\n    \"L3\": \"Instantiate mod_a once. Connect top_module's a to mod_a's in1, b to in2, c to in3, d to in4. Connect mod_a's out1 to top_module's out1 and mod_a's out2 to top_module's out2.\"\n  },\n  \"common_mistakes\": [\n    \"Connecting ports by position instead of by name, which fails because mod_a declares outputs before inputs.\",\n    \"Swapping the mapping of a,b,c,d to in1,in2,in3,in4 (e.g., connecting a to in2 and b to in1).\",\n    \"Forgetting to connect one of the inputs or outputs, leaving it floating.\",\n    \"Using the wrong instance name or module name in the instantiation.\"\n  ]\n}"
+    }
+  ]
+}

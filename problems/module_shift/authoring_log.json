@@ -1,0 +1,97 @@
+{
+  "slug": "module_shift",
+  "ok": true,
+  "model": "ultra",
+  "finished": "2026-10-22T10:10:25",
+  "rounds": [
+    {
+      "n": 1,
+      "ok": false,
+      "problems": [
+        "solution_sv does not pass against ref_sv (procedural assignment to a wire). given.sv:2: error: q is not a valid l-value in tb.top_module1.dff1. given.sv:2: error: q is not a valid l-value in tb.top_module1.dff2. given.sv:2: error: q is not a valid l-value in tb.top_module1.dff3. 3 error(s) during elaboration."
+      ],
+      "usage": {
+        "latency_s": 10.38,
+        "completion_tokens": 2312,
+        "prompt_tokens": 520,
+        "total_tokens": 2832,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 1751,
+          "rejected_prediction_tokens": null,
+          "text_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cache_write_tokens": null,
+          "cached_tokens": 0,
+          "image_tokens": null,
+          "text_tokens": null,
+          "multimodal_tokens": null
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 520
+      },
+      "mutation": null
+    },
+    {
+      "n": 2,
+      "ok": true,
+      "problems": [],
+      "usage": {
+        "latency_s": 7.9,
+        "completion_tokens": 1727,
+        "prompt_tokens": 1210,
+        "total_tokens": 2937,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 1165,
+          "rejected_prediction_tokens": null,
+          "text_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cache_write_tokens": null,
+          "cached_tokens": 0,
+          "image_tokens": null,
+          "text_tokens": null,
+          "multimodal_tokens": null
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1210
+      },
+      "mutation": {
+        "killed": 3,
+        "survived": 0,
+        "equivalent": 0,
+        "stillborn": 1,
+        "kill_rate": 1.0
+      }
+    }
+  ],
+  "survivors": [],
+  "transcript": [
+    {
+      "role": "system",
+      "content": "You write Verilog practice problems for complete beginners and verify nothing yourself:\nyour output is checked by a simulator and by mutation testing, and any failure comes back to you.\n\nReply with ONE JSON object in a ```json code block and nothing else. Keys:\n  \"spec\": plain-English problem statement, 50-150 words. Say what top_module must do and what\n          each provided module does. Do NOT give the wiring: which bits go to which instance, what\n          a carry-in or select is tied to, or how outputs are combined. Working that out is the\n          exercise; the hints reveal it step by step. Never include code.\n  \"given_sv\": Verilog source of every provided module, or \"\" if none.\n  \"ref_sv\": \"module RefModule(...)\" with exactly the same ports as top_module, written\n            behaviourally (for example with + and assign), never using the provided modules.\n  \"solution_sv\": what a good learner submits: \"module top_module(...)\" built the intended way\n                 (instantiating the provided modules), plus any module the learner must write.\n  \"directed\": list of input assignments as integers, e.g. [{\"a\": 5, \"b\": 3}]. Cover the cases\n              that expose the common mistakes (carries, sign bits, each select value).\n  \"hints\": {\"L0\": one sentence naming the concept to think about,\n            \"L3\": the wiring in words (which signals connect where), still no code}.\n  \"common_mistakes\": 2-4 short descriptions of mistakes beginners make on this problem.\n\nRules: Verilog-2005 (logic is allowed). No system tasks ($display etc.), no `include, no initial\nblocks in ref_sv or solution_sv. Clocked logic uses posedge clk. Port names and widths must match\nthe given top_module header exactly."
+    },
+    {
+      "role": "user",
+      "content": "Problem id: module_shift\nOutline: Chain three instances of the provided D flip-flop my_dff into a 3-stage shift register.\ntop_module header: module top_module(input clk, input d, output q);\nProvided module(s): module my_dff(input clk, input d, output q)\nThe solution must instantiate: 3 x my_dff\nThis problem is clocked: clk is driven by the testbench."
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"spec\": \"Create a 3-stage shift register by chaining three D flip-flops. The top_module has a clock input clk, a data input d, and an output q. Each provided my_dff module is a positive-edge-triggered D flip-flop with clock clk, data input d, and output q. The shift register should capture the input d on each rising clock edge and shift it through three stages, so that q becomes the value that was applied to d three cycles earlier.\",\n  \"given_sv\": \"module my_dff(input clk, input d, output q);\\n  always_ff @(posedge clk) q <= d;\\nendmodule\",\n  \"ref_sv\": \"module RefModule(input clk, input d, output q);\\n  logic [2:0] shift_reg;\\n  always_ff @(posedge clk) shift_reg <= {shift_reg[1:0], d};\\n  assign q = shift_reg[2];\\nendmodule\",\n  \"solution_sv\": \"module top_module(input clk, input d, output q);\\n  logic q1, q2;\\n  my_dff dff1 (.clk(clk), .d(d), .q(q1));\\n  my_dff dff2 (.clk(clk), .d(q1), .q(q2));\\n  my_dff dff3 (.clk(clk), .d(q2), .q(q));\\nendmodule\",\n  \"directed\": [{\"d\": 1}, {\"d\": 0}, {\"d\": 1}, {\"d\": 1}, {\"d\": 0}, {\"d\": 1}],\n  \"hints\": {\n    \"L0\": \"Think about how a shift register moves data through a chain of flip-flops on each clock cycle.\",\n    \"L3\": \"Connect the input d to the first flip-flop's d, the first flip-flop's q to the second flip-flop's d, the second flip-flop's q to the third flip-flop's d, and the third flip-flop's q to the output q. All flip-flops share the same clk.\"\n  },\n  \"common_mistakes\": [\n    \"Forgetting to declare intermediate signals between flip-flop stages.\",\n    \"Connecting the flip-flops in the wrong order (e.g., output of third to input of first).\",\n    \"Using the same signal name for multiple flip-flop outputs causing contention.\",\n    \"Not using the same clock for all flip-flops.\"\n  ]\n}"
+    },
+    {
+      "role": "user",
+      "content": "Your problem failed these checks. Fix them and reply with the complete JSON object again.\n- solution_sv does not pass against ref_sv (procedural assignment to a wire). given.sv:2: error: q is not a valid l-value in tb.top_module1.dff1. given.sv:2: error: q is not a valid l-value in tb.top_module1.dff2. given.sv:2: error: q is not a valid l-value in tb.top_module1.dff3. 3 error(s) during elaboration."
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"spec\": \"Create a 3-stage shift register by chaining three D flip-flops. The top_module has a clock input clk, a data input d, and an output q. Each provided my_dff module is a positive-edge-triggered D flip-flop with clock clk, data input d, and output q. The shift register should capture the input d on each rising clock edge and shift it through three stages, so that q becomes the value that was applied to d three cycles earlier.\",\n  \"given_sv\": \"module my_dff(input clk, input d, output logic q);\\n  always_ff @(posedge clk) q <= d;\\nendmodule\",\n  \"ref_sv\": \"module RefModule(input clk, input d, output q);\\n  logic [2:0] shift_reg;\\n  always_ff @(posedge clk) shift_reg <= {shift_reg[1:0], d};\\n  assign q = shift_reg[2];\\nendmodule\",\n  \"solution_sv\": \"module top_module(input clk, input d, output q);\\n  logic q1, q2;\\n  my_dff dff1 (.clk(clk), .d(d), .q(q1));\\n  my_dff dff2 (.clk(clk), .d(q1), .q(q2));\\n  my_dff dff3 (.clk(clk), .d(q2), .q(q));\\nendmodule\",\n  \"directed\": [{\"d\": 1}, {\"d\": 0}, {\"d\": 1}, {\"d\": 1}, {\"d\": 0}, {\"d\": 1}],\n  \"hints\": {\n    \"L0\": \"Think about how a shift register moves data through a chain of flip-flops on each clock cycle.\",\n    \"L3\": \"Connect the input d to the first flip-flop's d, the first flip-flop's q to the second flip-flop's d, the second flip-flop's q to the third flip-flop's d, and the third flip-flop's q to the output q. All flip-flops share the same clk.\"\n  },\n  \"common_mistakes\": [\n    \"Forgetting to declare intermediate signals between flip-flop stages.\",\n    \"Connecting the flip-flops in the wrong order (e.g., output of third to input of first).\",\n    \"Using the same signal name for multiple flip-flop outputs causing contention.\",\n    \"Not using the same clock for all flip-flops.\"\n  ]\n}"
+    }
+  ]
+}

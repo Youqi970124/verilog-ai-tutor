@@ -1,0 +1,57 @@
+{
+  "slug": "module",
+  "interface": {
+    "inputs": [
+      {
+        "name": "a",
+        "width": 1
+      },
+      {
+        "name": "b",
+        "width": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "out",
+        "width": 1
+      }
+    ],
+    "clock": false
+  },
+  "directed": [
+    {
+      "a": 1,
+      "b": 0
+    },
+    {
+      "a": 0,
+      "b": 1
+    },
+    {
+      "a": 1,
+      "b": 1
+    },
+    {
+      "a": 0,
+      "b": 0
+    }
+  ],
+  "random_samples": 300,
+  "require_instances": {
+    "mod_a": 1
+  },
+  "hints": {
+    "L0": "Think about how to connect the two inputs of the top module to the two inputs of the provided module, noting that the provided module's function is not symmetric.",
+    "L3": "Connect top_module's a to mod_a's in1, top_module's b to mod_a's in2, and mod_a's out to top_module's out."
+  },
+  "common_mistakes": [
+    "Swapping the connections of a and b to in1 and in2, which changes the output because mod_a is non-commutative.",
+    "Forgetting to connect the output of mod_a to top_module's out.",
+    "Instantiating mod_a more than once or not at all."
+  ],
+  "top": "module top_module(input a, input b, output out)",
+  "learner_writes": null,
+  "review": "assistant-reviewed",
+  "review_notes": "Spec: removed author wording ('non-commutative')."
+}

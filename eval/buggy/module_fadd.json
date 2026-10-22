@@ -1,0 +1,191 @@
+[
+  {
+    "op": "and_to_or",
+    "concept": "bitwise_ops",
+    "line": 3,
+    "before": "&",
+    "after": "|",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a | b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "and_to_or",
+    "concept": "bitwise_ops",
+    "line": 3,
+    "before": "&",
+    "after": "|",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a | cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "and_to_or",
+    "concept": "bitwise_ops",
+    "line": 3,
+    "before": "&",
+    "after": "|",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b | cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "or_to_and",
+    "concept": "bitwise_ops",
+    "line": 3,
+    "before": "|",
+    "after": "&",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) & (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "or_to_and",
+    "concept": "bitwise_ops",
+    "line": 3,
+    "before": "|",
+    "after": "&",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) & (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "xor_to_xnor",
+    "concept": "bitwise_ops",
+    "line": 2,
+    "before": "^",
+    "after": "~^",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ~^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "xor_to_xnor",
+    "concept": "bitwise_ops",
+    "line": 2,
+    "before": "^",
+    "after": "~^",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ~^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "reverse_declared_range",
+    "concept": "vector_decl",
+    "line": 6,
+    "before": "[31:0]",
+    "after": "[0:31]",
+    "detail": "other compile error",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [0:31] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "reverse_declared_range",
+    "concept": "vector_decl",
+    "line": 6,
+    "before": "[31:0]",
+    "after": "[0:31]",
+    "detail": "other compile error",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [0:31] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "reverse_declared_range",
+    "concept": "vector_decl",
+    "line": 6,
+    "before": "[31:0]",
+    "after": "[0:31]",
+    "detail": "other compile error",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [0:31] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 8,
+    "before": "[15:0]",
+    "after": "[16:1]",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[16:1]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 8,
+    "before": "[15:0]",
+    "after": "[16:1]",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[16:1]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 8,
+    "before": "[15:0]",
+    "after": "[16:1]",
+    "detail": "other compile error",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[16:1]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 9,
+    "before": "[31:16]",
+    "after": "[30:15]",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[30:15]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 8,
+    "before": " .b(b[15:0]), .cin(1'b0)",
+    "after": ".b(1'b0), .cin(b[15:0])",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]),.b(1'b0), .cin(b[15:0]), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 8,
+    "before": " .cin(1'b0), .sum(sum[15:0])",
+    "after": ".cin(sum[15:0]), .sum(1'b0)",
+    "detail": "other compile error",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]),.cin(sum[15:0]), .sum(1'b0), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 8,
+    "before": " .sum(sum[15:0]), .cout(carry_low)",
+    "after": ".sum(carry_low), .cout(sum[15:0])",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0),.sum(carry_low), .cout(sum[15:0]));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "carry_in_zero",
+    "concept": "carry_chain",
+    "line": 9,
+    "before": " .cin(carry_low)",
+    "after": ".cin(1'b0)",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]),.cin(1'b0), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "flip_constant",
+    "concept": "assign",
+    "line": 8,
+    "before": "1'b0",
+    "after": "1'b1",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b1), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 2,
+    "before": "  assign sum = a ^ b ^ cin;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign cout = (a & b) | (a & cin) | (b & cin);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 3,
+    "before": "  assign cout = (a & b) | (a & cin) | (b & cin);\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "module add1(input a, input b, input cin, output sum, output cout);\n  assign sum = a ^ b ^ cin;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire carry_low;\n  add16 lower (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(sum[15:0]), .cout(carry_low));\n  add16 upper (.a(a[31:16]), .b(b[31:16]), .cin(carry_low), .sum(sum[31:16]), .cout());\nendmodule\n"
+  }
+]

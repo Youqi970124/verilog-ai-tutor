@@ -1,0 +1,38 @@
+[
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 2,
+    "before": "\n    .out1(out1),\n    .out2(out2)",
+    "after": ".out1(out2), .out2(out1)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input a, input b, input c, input d, output out1, output out2);\n  mod_a u_mod_a (.out1(out2), .out2(out1),\n    .in1(a),\n    .in2(b),\n    .in3(c),\n    .in4(d)\n  );\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 3,
+    "before": "\n    .out2(out2),\n    .in1(a)",
+    "after": ".out2(a), .in1(out2)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input a, input b, input c, input d, output out1, output out2);\n  mod_a u_mod_a (\n    .out1(out1),.out2(a), .in1(out2),\n    .in2(b),\n    .in3(c),\n    .in4(d)\n  );\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 4,
+    "before": "\n    .in1(a),\n    .in2(b)",
+    "after": ".in1(b), .in2(a)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input a, input b, input c, input d, output out1, output out2);\n  mod_a u_mod_a (\n    .out1(out1),\n    .out2(out2),.in1(b), .in2(a),\n    .in3(c),\n    .in4(d)\n  );\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 5,
+    "before": "\n    .in2(b),\n    .in3(c)",
+    "after": ".in2(c), .in3(b)",
+    "detail": "outputs mismatch",
+    "src": "module top_module(input a, input b, input c, input d, output out1, output out2);\n  mod_a u_mod_a (\n    .out1(out1),\n    .out2(out2),\n    .in1(a),.in2(c), .in3(b),\n    .in4(d)\n  );\nendmodule\n"
+  }
+]

@@ -1,0 +1,1 @@
+Create a top_module that instantiates the provided module mod_a exactly once. mod_a has two inputs, in1 and in2, and one output, out = in1 AND NOT in2. Connect top_module's inputs a and b to mod_a's in1 and in2, and mod_a's out to top_module's out. Do not add any other logic.

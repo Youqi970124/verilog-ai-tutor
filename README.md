@@ -4,7 +4,7 @@ A Verilog coaching agent that takes a complete beginner through the first 28 [HD
 
 Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering track.
 
-> **Status: work in progress.** Everything that does not need a model is built and tested (73 tests). The authoring agent runs end to end with scripted replies and is waiting for credits to generate the 9 Modules problems. Model-written hints in the coach are not connected yet.
+> **Status: work in progress.** All 28 problems are playable. The 9 Modules problems were written by the authoring agent with Nemotron 3 Ultra and verified by tools. Model-written hints in the coach are not connected yet.
 
 ## How it works
 
@@ -29,7 +29,21 @@ Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering
 
 ## Results so far
 
-**Mutation testing of the 19 imported problems** (`python scripts/mutation_report.py`): 118 beginner-style mutants. 80 caught by the testbenches, 0 missed, 27 proven equivalent to the reference by Yosys, 11 do not compile. The 91 caught or non-compiling mutants are saved under `eval/buggy/` as the evaluation set for the coach.
+**Authoring agent** (`python scripts/author.py`, Nemotron 3 Ultra): all 9 Modules problems verified in 17 rounds, 60k tokens, about $0.15. Eight needed feedback first: old-style port headers, a procedural assignment to a wire, a syntax error in a provided module, and one learner solution that disagreed with the reference until the simulator's counterexample went back to the model. A human-style review then trimmed three specs that gave away the wiring and added a missing port mapping to one; see `review_notes` in each `problem.json`.
+
+| Problem | Rounds | Tokens | First failure |
+|---|---|---|---|
+| module | 3 | 7.1k | port header the checker could not read |
+| module_pos | 2 | 5.3k | port header |
+| module_name | 2 | 8.2k | port header |
+| module_shift | 2 | 5.8k | procedural assignment to a wire |
+| module_shift8 | 2 | 9.8k | procedural assignment to a wire |
+| module_add | 1 | 3.1k | none |
+| module_fadd | 2 | 9.6k | syntax error in the provided module |
+| module_cseladd | 1 | 5.1k | none |
+| module_addsub | 2 | 6.4k | solution disagreed with reference |
+
+**Mutation testing of all 28 problems** (`python scripts/mutation_report.py`): 219 beginner-style mutants. 149 caught by the testbenches, 0 missed, 46 proven equivalent to the reference by Yosys, 24 do not compile. The 173 caught or non-compiling mutants are saved under `eval/buggy/` as the evaluation set for the coach.
 
 **Model check** (`python scripts/model_spike.py`, 19 problems, temperature 0, graded by our grader):
 

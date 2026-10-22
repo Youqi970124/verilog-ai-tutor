@@ -1,0 +1,86 @@
+{
+  "slug": "module_addsub",
+  "interface": {
+    "inputs": [
+      {
+        "name": "a",
+        "width": 32
+      },
+      {
+        "name": "b",
+        "width": 32
+      },
+      {
+        "name": "sub",
+        "width": 1
+      }
+    ],
+    "outputs": [
+      {
+        "name": "sum",
+        "width": 32
+      }
+    ],
+    "clock": false
+  },
+  "directed": [
+    {
+      "a": 5,
+      "b": 3,
+      "sub": 0
+    },
+    {
+      "a": 5,
+      "b": 3,
+      "sub": 1
+    },
+    {
+      "a": 0,
+      "b": 0,
+      "sub": 0
+    },
+    {
+      "a": 0,
+      "b": 0,
+      "sub": 1
+    },
+    {
+      "a": 4294967295,
+      "b": 1,
+      "sub": 0
+    },
+    {
+      "a": 4294967295,
+      "b": 1,
+      "sub": 1
+    },
+    {
+      "a": 2147483648,
+      "b": 2147483648,
+      "sub": 0
+    },
+    {
+      "a": 2147483648,
+      "b": 2147483648,
+      "sub": 1
+    }
+  ],
+  "random_samples": 300,
+  "require_instances": {
+    "add16": 2
+  },
+  "hints": {
+    "L0": "Think about how two's complement subtraction (a - b) can be done by inverting b and adding 1.",
+    "L3": "Replicate sub to 32 bits and XOR with b to get b_xor. Split a and b_xor into low 16 bits (15:0) and high 16 bits (31:16). Instantiate the first add16 with a[15:0], b_xor[15:0], cin=sub. Connect its cout to the cin of the second add16 which takes a[31:16] and b_xor[31:16]. Concatenate the two sums (high then low) to form the 32-bit sum."
+  },
+  "common_mistakes": [
+    "Forgetting to replicate sub to 32 bits before XOR, causing only the LSB of b to be inverted.",
+    "Using sub as carry-in for the high adder instead of the low adder's carry-out.",
+    "Swapping the order of concatenation (putting low sum in high bits).",
+    "Not connecting the carry chain between the two add16 instances."
+  ],
+  "top": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum)",
+  "learner_writes": null,
+  "review": "assistant-reviewed",
+  "review_notes": "Spec: removed the XOR-with-replicated-sub and carry-in wiring; kept the two's complement idea. The wiring stays in L3."
+}

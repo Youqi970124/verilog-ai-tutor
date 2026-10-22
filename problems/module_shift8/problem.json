@@ -1,0 +1,82 @@
+{
+  "slug": "module_shift8",
+  "interface": {
+    "inputs": [
+      {
+        "name": "d",
+        "width": 8
+      },
+      {
+        "name": "sel",
+        "width": 2
+      }
+    ],
+    "outputs": [
+      {
+        "name": "q",
+        "width": 8
+      }
+    ],
+    "clock": true
+  },
+  "directed": [
+    {
+      "d": 18,
+      "sel": 0
+    },
+    {
+      "d": 52,
+      "sel": 1
+    },
+    {
+      "d": 86,
+      "sel": 2
+    },
+    {
+      "d": 120,
+      "sel": 3
+    },
+    {
+      "d": 154,
+      "sel": 0
+    },
+    {
+      "d": 188,
+      "sel": 1
+    },
+    {
+      "d": 222,
+      "sel": 2
+    },
+    {
+      "d": 240,
+      "sel": 3
+    },
+    {
+      "d": 19,
+      "sel": 1
+    },
+    {
+      "d": 87,
+      "sel": 2
+    }
+  ],
+  "random_samples": 300,
+  "require_instances": {
+    "my_dff8": 3
+  },
+  "hints": {
+    "L0": "Think about how a shift register works and how a multiplexer can select between different stages.",
+    "L3": "Connect the three my_dff8 instances in series: the first takes d, the second takes the first's output, the third takes the second's output. Use a case statement on sel to assign q to either d, the first flip-flop's output, the second's, or the third's."
+  },
+  "common_mistakes": [
+    "Selecting the wrong flip-flop output for a given sel value (off-by-one).",
+    "Forgetting that sel=0 should bypass all flip-flops and output d directly.",
+    "Not chaining the flip-flops correctly (e.g., connecting all flip-flop inputs to d).",
+    "Misunderstanding the clocked behavior: the flip-flop outputs update only on clock edges, so the delay is in cycles."
+  ],
+  "top": "module top_module(input clk, input [7:0] d, input [1:0] sel, output [7:0] q)",
+  "learner_writes": null,
+  "review": "assistant-reviewed",
+  "review_notes": "Checked: spec, provided modules, reference, solution, vectors and hints; no changes."
+}

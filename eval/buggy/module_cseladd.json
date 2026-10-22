@@ -1,0 +1,146 @@
+[
+  {
+    "op": "concat_swap",
+    "concept": "concat",
+    "line": 17,
+    "before": "{high_sum_selected, low_sum}",
+    "after": "{low_sum, high_sum_selected}",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {low_sum, high_sum_selected};\nendmodule\n"
+  },
+  {
+    "op": "reverse_declared_range",
+    "concept": "vector_decl",
+    "line": 5,
+    "before": "[31:0]",
+    "after": "[0:31]",
+    "detail": "other compile error",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [0:31] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 12,
+    "before": "[15:0]",
+    "after": "[16:1]",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[16:1]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 12,
+    "before": "[15:0]",
+    "after": "[16:1]",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[16:1]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 13,
+    "before": "[31:16]",
+    "after": "[30:15]",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[30:15]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "range_off_by_one",
+    "concept": "part_select",
+    "line": 13,
+    "before": "[31:16]",
+    "after": "[30:15]",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[30:15]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 12,
+    "before": " .b(b[15:0]), .cin(1'b0)",
+    "after": ".b(1'b0), .cin(b[15:0])",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]),.b(1'b0), .cin(b[15:0]), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 12,
+    "before": " .cin(1'b0), .sum(low_sum)",
+    "after": ".cin(low_sum), .sum(1'b0)",
+    "detail": "other compile error",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]),.cin(low_sum), .sum(1'b0), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "swap_named_ports",
+    "concept": "port_by_name",
+    "line": 12,
+    "before": " .sum(low_sum), .cout(low_cout)",
+    "after": ".sum(low_cout), .cout(low_sum)",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0),.sum(low_cout), .cout(low_sum));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "carry_in_zero",
+    "concept": "carry_chain",
+    "line": 14,
+    "before": " .cin(1'b1)",
+    "after": ".cin(1'b0)",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]),.cin(1'b0), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "flip_constant",
+    "concept": "assign",
+    "line": 12,
+    "before": "1'b0",
+    "after": "1'b1",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b1), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "flip_constant",
+    "concept": "assign",
+    "line": 13,
+    "before": "1'b0",
+    "after": "1'b1",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "flip_constant",
+    "concept": "assign",
+    "line": 14,
+    "before": "1'b1",
+    "after": "1'b0",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "swap_mux_arms",
+    "concept": "mux",
+    "line": 2,
+    "before": "? in1 : in0;",
+    "after": "? in0 : in1;",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in0 : in1;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 2,
+    "before": "  assign out = sel ? in1 : in0;\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\n  assign sum = {high_sum_selected, low_sum};\nendmodule\n"
+  },
+  {
+    "op": "drop_assign",
+    "concept": "assign",
+    "line": 17,
+    "before": "  assign sum = {high_sum_selected, low_sum};\n",
+    "after": "",
+    "detail": "outputs mismatch",
+    "src": "module mux2to1(input [15:0] in0, input [15:0] in1, input sel, output [15:0] out);\n  assign out = sel ? in1 : in0;\nendmodule\n\nmodule top_module(input [31:0] a, input [31:0] b, output [31:0] sum);\n  wire [15:0] low_sum;\n  wire low_cout;\n  wire [15:0] high_sum0, high_sum1;\n  wire high_cout0, high_cout1;\n  wire [15:0] high_sum_selected;\n\n  add16 low_adder (.a(a[15:0]), .b(b[15:0]), .cin(1'b0), .sum(low_sum), .cout(low_cout));\n  add16 high_adder0 (.a(a[31:16]), .b(b[31:16]), .cin(1'b0), .sum(high_sum0), .cout(high_cout0));\n  add16 high_adder1 (.a(a[31:16]), .b(b[31:16]), .cin(1'b1), .sum(high_sum1), .cout(high_cout1));\n  mux2to1 high_mux (.in0(high_sum0), .in1(high_sum1), .sel(low_cout), .out(high_sum_selected));\n\nendmodule\n"
+  }
+]

@@ -1,0 +1,66 @@
+{
+  "slug": "module_fadd",
+  "interface": {
+    "inputs": [
+      {
+        "name": "a",
+        "width": 32
+      },
+      {
+        "name": "b",
+        "width": 32
+      }
+    ],
+    "outputs": [
+      {
+        "name": "sum",
+        "width": 32
+      }
+    ],
+    "clock": false
+  },
+  "directed": [
+    {
+      "a": 0,
+      "b": 0
+    },
+    {
+      "a": 5,
+      "b": 3
+    },
+    {
+      "a": 65535,
+      "b": 1
+    },
+    {
+      "a": 4294901760,
+      "b": 65535
+    },
+    {
+      "a": 4294967295,
+      "b": 1
+    },
+    {
+      "a": 305419896,
+      "b": 2271560481
+    }
+  ],
+  "random_samples": 300,
+  "require_instances": {
+    "add16": 2
+  },
+  "hints": {
+    "L0": "A 1-bit full adder computes sum = a XOR b XOR cin and carry-out = majority(a,b,cin).",
+    "L3": "Instantiate two add16 modules: lower takes a[15:0], b[15:0], cin=0; its cout connects to upper's cin. Upper takes a[31:16], b[31:16]; its cout is left open. Concatenate lower.sum and upper.sum to form the 32-bit sum."
+  },
+  "common_mistakes": [
+    "Forgetting to tie the lower add16's cin to 0.",
+    "Not connecting the lower add16's cout to the upper add16's cin.",
+    "Reversing the bit slices (e.g., using a[31:16] for the lower adder).",
+    "Implementing add1 incorrectly, such as missing a term in the carry-out expression."
+  ],
+  "top": "module top_module(input [31:0] a, input [31:0] b, output [31:0] sum)",
+  "learner_writes": "module add1(input a, input b, input cin, output sum, output cout)",
+  "review": "assistant-reviewed",
+  "review_notes": "Spec: removed the full-adder formula and the wiring; both are what the learner writes."
+}
