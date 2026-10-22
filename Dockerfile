@@ -26,4 +26,5 @@ ENV PORT=8000 WEB_CONCURRENCY=1
 EXPOSE 8000
 HEALTHCHECK CMD python3 -c "import os, urllib.request; urllib.request.urlopen(f'http://127.0.0.1:{os.environ[\"PORT\"]}/api/health')"
 # Recommended: docker run --read-only --tmpfs /tmp -p 8000:8000 -e NEBIUS_API_KEY=... verilog-ai-tutor
-CMD ["sh", "-c", "exec uvicorn w2a.server:app --host 0.0.0.0 --port \"$PORT\" --workers \"$WEB_CONCURRENCY\""]
+# Behind a proxy such as Render's, take the client address from X-Forwarded-For so per-IP limits apply per user.
+CMD ["sh", "-c", "exec uvicorn w2a.server:app --host 0.0.0.0 --port \"$PORT\" --workers \"$WEB_CONCURRENCY\" --proxy-headers --forwarded-allow-ips '*'"]

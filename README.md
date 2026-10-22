@@ -4,6 +4,8 @@ An AI Verilog tutor that follows the [HDLBits](https://hdlbits.01xz.net/) proble
 
 Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering track.
 
+**Live demo:** https://verilog-ai-tutor.onrender.com (free instance: after 15 idle minutes the first load takes up to a minute)
+
 > **Status: work in progress.** All 28 problems are playable. The 9 Modules problems were written by the authoring agent with Nemotron 3 Ultra and verified by tools. The coach asks Nemotron 3 Ultra for hints and has been evaluated on 173 buggy submissions. Not done yet: public deployment.
 
 ## How it works
