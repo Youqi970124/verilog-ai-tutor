@@ -6,7 +6,7 @@ Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering
 
 **Live demo:** https://verilog-ai-tutor.onrender.com (free instance: after 15 idle minutes the first load takes up to a minute)
 
-> **Status: work in progress.** All 28 problems are playable. The 9 Modules problems were written by the authoring agent with Nemotron 3 Ultra and verified by tools. The coach asks Nemotron 3 Ultra for hints and has been evaluated on 173 buggy submissions. Not done yet: public deployment.
+All 28 problems are playable. The 9 Modules problems were written by the authoring agent with Nemotron 3 Ultra and verified by tools. The coach asks Nemotron 3 Ultra for hints and has been evaluated on 173 buggy submissions.
 
 ## How it works
 
@@ -29,6 +29,27 @@ Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering
 - **Leak check.** Every model-written hint is compared with the reference statements the learner is missing before anyone sees it. Naming an operator is fine; writing the fixed line is not. A leaking or cut-off answer goes back to the model once; if it fails again, the learner gets the rule layer's hint. Answers are cached, rate limited per IP and capped per day to protect the credit balance.
 - **Authoring agent.** The model writes the problem text, the provided modules, a behavioural reference, a learner-style solution, directed vectors and hints. Tools decide whether it is right: the testbench is generated from the interface, the solution must pass and use the required submodules, and every beginner-style mutant must be caught or proven equivalent by Yosys. Failures go back to the model.
 - **Web app.** Stage map, editor, waveform with dec/hex/bin, hint ladder. Progress stays in the browser.
+
+## NVIDIA Nemotron and Nebius Token Factory
+
+Every model call goes through Nebius Token Factory's OpenAI-compatible API (`https://api.tokenfactory.nebius.com/v1/`), so switching models is a one-word change. The models do two jobs: write and verify new problems offline, and coach learners live. In both, a simulator checks or grounds what the model says.
+
+| NVIDIA model or asset | Where it is used | Result |
+|---|---|---|
+| **Nemotron 3 Ultra** (`nvidia/Nemotron-3-Ultra-550b-a55b`) | Authoring agent: wrote the 9 Modules problems (spec, provided modules, reference, learner solution, test vectors, hints) | 9/9 verified with 0 surviving mutants, 17 rounds, about $0.15 |
+| **Nemotron 3 Ultra** | Live coach behind "Ask the coach", reasoning on | Blamed the right line in 97.8% of bugs that have one; about 3 s median and $0.003 per hint |
+| **Nemotron 3 Super** (`nvidia/nemotron-3-super-120b-a12b`) | Coach comparison | 94.9% on the same bugs |
+| **Nemotron 3.5 Lightning** (`nvidia/Nemotron-3_5-Lightning`) | Day-one model check on the 19 imported problems | 19/19 |
+| **VerilogEval** (NVlabs, MIT) | Problems 1 to 19 with their testbenches | Graded with the same flags and failure categories |
+
+Where Token Factory sped up the work:
+
+- **Choosing models took minutes.** One endpoint served Lightning, Super and Ultra, so the day-one check of all three cost about $0.04.
+- **Problems were authored by the model, not by hand.** The authoring loop ran end to end on Ultra for about $0.15. Without that loop, the 9 missing problems, their reference solutions and their testbench vectors would have been written by hand.
+- **Evaluation was cheap enough to run in full.** We graded 519 hints: 173 bugs, each run through Ultra at L2, Ultra at L3 and Super at L2. The two Ultra runs cost about $1.10, and the Super run used fewer tokens than either.
+- **The usage data fed back into the design.** Usage reports include reasoning tokens. That showed reasoning shares `max_tokens` with the answer: one reply was cut off at 2,048, so the coach now uses 4,096.
+
+Development and evaluation together have cost about $1.50 so far. Other Nebius services: the credits came from the Nebius AI Builder Program. Nebius AI Cloud is not used. The simulator is CPU-only and the web app runs on Render's free tier, so Token Factory is the only Nebius service the app calls at runtime.
 
 ## Results so far
 
