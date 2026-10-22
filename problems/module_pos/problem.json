@@ -85,6 +85,6 @@
   ],
   "top": "module top_module(input a, input b, input c, input d, output out1, output out2)",
   "learner_writes": null,
-  "review": "assistant-reviewed",
+  "review": "first-pass",
   "review_notes": "Spec: removed a sentence written for the author, not the learner."
 }

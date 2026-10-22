@@ -61,6 +61,6 @@
   ],
   "top": "module top_module(input [31:0] a, input [31:0] b, output [31:0] sum)",
   "learner_writes": "module add1(input a, input b, input cin, output sum, output cout)",
-  "review": "assistant-reviewed",
+  "review": "first-pass",
   "review_notes": "Spec: removed the full-adder formula and the wiring; both are what the learner writes."
 }

@@ -81,6 +81,6 @@
   ],
   "top": "module top_module(input [31:0] a, input [31:0] b, input sub, output [31:0] sum)",
   "learner_writes": null,
-  "review": "assistant-reviewed",
+  "review": "first-pass",
   "review_notes": "Spec: removed the XOR-with-replicated-sub and carry-in wiring; kept the two's complement idea. The wiring stays in L3."
 }

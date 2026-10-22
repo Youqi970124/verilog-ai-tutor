@@ -77,6 +77,6 @@
   ],
   "top": "module top_module(input clk, input [7:0] d, input [1:0] sel, output [7:0] q)",
   "learner_writes": null,
-  "review": "assistant-reviewed",
+  "review": "first-pass",
   "review_notes": "Checked: spec, provided modules, reference, solution, vectors and hints; no changes."
 }

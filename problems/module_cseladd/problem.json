@@ -53,6 +53,6 @@
   ],
   "top": "module top_module(input [31:0] a, input [31:0] b, output [31:0] sum)",
   "learner_writes": null,
-  "review": "assistant-reviewed",
+  "review": "first-pass",
   "review_notes": "Checked: spec, provided modules, reference, solution, vectors and hints; no changes."
 }

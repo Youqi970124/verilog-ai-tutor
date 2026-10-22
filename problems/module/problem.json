@@ -52,6 +52,6 @@
   ],
   "top": "module top_module(input a, input b, output out)",
   "learner_writes": null,
-  "review": "assistant-reviewed",
+  "review": "first-pass",
   "review_notes": "Spec: removed author wording ('non-commutative')."
 }
