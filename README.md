@@ -4,7 +4,7 @@ A Verilog coaching agent that takes a complete beginner through the first 28 [HD
 
 Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering track.
 
-> **Status: work in progress.** All 28 problems are playable. The 9 Modules problems were written by the authoring agent with Nemotron 3 Ultra and verified by tools. The coach asks Nemotron 3 Ultra for hints. Not done yet: evaluation numbers for the coach, public deployment.
+> **Status: work in progress.** All 28 problems are playable. The 9 Modules problems were written by the authoring agent with Nemotron 3 Ultra and verified by tools. The coach asks Nemotron 3 Ultra for hints and has been evaluated on 173 buggy submissions. Not done yet: public deployment.
 
 ## How it works
 
@@ -46,6 +46,18 @@ Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering
 
 **Mutation testing of all 28 problems** (`python scripts/mutation_report.py`): 219 beginner-style mutants. 149 caught by the testbenches, 0 missed, 46 proven equivalent to the reference by Yosys, 24 do not compile. The 173 caught or non-compiling mutants are saved under `eval/buggy/` as the evaluation set for the coach.
 
+**Coach evaluation** (`python scripts/eval_coach.py`, per-item results in `eval/coach_runs/`). Each buggy submission was made by mutating a correct solution, so the wrong line is known. The coach was asked for an L2 hint ("which line, and what does it do") and scored on the line it blamed.
+
+| | Nemotron 3 Ultra | Nemotron 3 Super | Rule layer alone |
+|---|---|---|---|
+| Blamed the injected line (137 bugs with a wrong line) | **97.8%** | 94.9% | 48.2% |
+| Named the unassigned signal (36 bugs where a line was deleted) | 100% | 100% | – |
+| Hints that leaked and had to be rewritten | 0% | 0% | – |
+| Median / 90th percentile latency | 3.3 s / 7.2 s | 3.2 s / 5.1 s | – |
+| Mean tokens per hint | 1,705 | 1,319 | – |
+
+The three Ultra misses all explain the bug correctly but point at a neighbouring line of the same statement, for example the first line of a multi-line instance. Ultra costs about $0.003 per hint. A second run at L3, the level closest to the answer, produced no leaks and fell back to the rule hint once (0.6%) after two cut-off replies. Known limit: when the fix is a single declaration range such as `[31:0]`, an L3 hint that names it is effectively the answer; the leak check does not look at the module header.
+
 **Model check** (`python scripts/model_spike.py`, 19 problems, temperature 0, graded by our grader):
 
 | Model | Solved | Median latency | Tokens |
@@ -56,7 +68,7 @@ Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering
 
 Temperature 0 was not deterministic: one Super failure passed on a rerun. That is why every model output goes through the simulator before anyone sees it.
 
-**Coach spot check** (one question, reasoning on and off): "a 32-bit `b` XORed with a 1-bit `sub`, what goes wrong?" With reasoning off, all three models answered wrongly (for example "inverts all 32 bits"). With reasoning on, Ultra was right in 1.9 s, Super right in 5.3 s, and Lightning right but slow (94 s at the time). The coach therefore uses Ultra with reasoning on. On eight buggy submissions Ultra blamed the injected line every time, with no leaks, at 1 to 10 s and about 1k to 2.5k tokens per hint (about $0.005). One reply was cut off by a 2,048-token cap; the cap is now 4,096 and cut-off replies are retried. A full evaluation over the 173 buggy submissions is next.
+**Coach spot check** (one question, reasoning on and off): "a 32-bit `b` XORed with a 1-bit `sub`, what goes wrong?" With reasoning off, all three models answered wrongly (for example "inverts all 32 bits"). With reasoning on, Ultra was right in 1.9 s, Super right in 5.3 s, and Lightning right but slow (94 s at the time). The coach therefore uses Ultra with reasoning on. On eight buggy submissions Ultra blamed the injected line every time, with no leaks, at 1 to 10 s and about 1k to 2.5k tokens per hint (about $0.005). One reply was cut off by a 2,048-token cap; the cap is now 4,096 and cut-off replies are retried.
 
 ## Setup
 
@@ -107,7 +119,7 @@ problems/     one directory per problem: prompt.txt, ref.sv, test.sv, and for au
 w2a/          grader, safety, vcd, tbgen, mutate, equiv, authoring, coach, tutor, leak, mastery, llm, server
 web/          index.html, app.js, style.css
 scripts/      import_verilogeval.py, author.py, mutation_report.py, model_spike.py
-eval/         mutation report and buggy submissions for evaluating the coach
+eval/         mutation report, buggy submissions, coach evaluation runs and summary
 tests/        86 tests
 ```
 

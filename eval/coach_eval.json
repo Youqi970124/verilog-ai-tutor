@@ -1,0 +1,104 @@
+{
+  "super_L2": {
+    "n": 173,
+    "root_cause_exact_pct": 84.4,
+    "located_bugs": {
+      "n": 137,
+      "root_cause_exact_pct": 94.9,
+      "rule_pick_exact_pct": 48.2
+    },
+    "missing_statement_bugs": {
+      "n": 36,
+      "hint_names_unassigned_signal_pct": 100.0
+    },
+    "root_cause_pm1_pct": 87.9,
+    "rule_pick_exact_pct": 39.3,
+    "rule_candidates_contain_pct": 55.5,
+    "by_status": {
+      "compile_error": {
+        "n": 24,
+        "root_cause_exact_pct": 79.2
+      },
+      "mismatch": {
+        "n": 149,
+        "root_cause_exact_pct": 85.2
+      }
+    },
+    "leak_rewrites_pct": 0.0,
+    "fallback_leak_pct": 0.0,
+    "fallback_error_pct": 0.0,
+    "latency_p50_s": 3.15,
+    "latency_p90_s": 5.1,
+    "tokens_mean": 1319,
+    "cost_usd_total": null,
+    "cost_usd_per_hint": null
+  },
+  "ultra_L2": {
+    "n": 173,
+    "root_cause_exact_pct": 86.7,
+    "located_bugs": {
+      "n": 137,
+      "root_cause_exact_pct": 97.8,
+      "rule_pick_exact_pct": 48.2
+    },
+    "missing_statement_bugs": {
+      "n": 36,
+      "hint_names_unassigned_signal_pct": 100.0
+    },
+    "root_cause_pm1_pct": 90.8,
+    "rule_pick_exact_pct": 39.3,
+    "rule_candidates_contain_pct": 55.5,
+    "by_status": {
+      "compile_error": {
+        "n": 24,
+        "root_cause_exact_pct": 100.0
+      },
+      "mismatch": {
+        "n": 149,
+        "root_cause_exact_pct": 84.6
+      }
+    },
+    "leak_rewrites_pct": 0.0,
+    "fallback_leak_pct": 0.0,
+    "fallback_error_pct": 0.0,
+    "latency_p50_s": 3.32,
+    "latency_p90_s": 7.18,
+    "tokens_mean": 1705,
+    "cost_usd_total": 0.565,
+    "cost_usd_per_hint": 0.0033
+  },
+  "ultra_L3": {
+    "n": 173,
+    "root_cause_exact_pct": 78.0,
+    "located_bugs": {
+      "n": 137,
+      "root_cause_exact_pct": 95.6,
+      "rule_pick_exact_pct": 48.2
+    },
+    "missing_statement_bugs": {
+      "n": 36,
+      "hint_names_unassigned_signal_pct": 33.3
+    },
+    "root_cause_pm1_pct": 80.9,
+    "rule_pick_exact_pct": 39.3,
+    "rule_candidates_contain_pct": 55.5,
+    "by_status": {
+      "compile_error": {
+        "n": 24,
+        "root_cause_exact_pct": 100.0
+      },
+      "mismatch": {
+        "n": 149,
+        "root_cause_exact_pct": 74.5
+      }
+    },
+    "leak_rewrites_pct": 0.0,
+    "fallback_leak_pct": 0.0,
+    "fallback_error_pct": 0.6,
+    "latency_p50_s": 2.95,
+    "latency_p90_s": 6.53,
+    "tokens_mean": 1622,
+    "cost_usd_total": 0.522,
+    "cost_usd_per_hint": 0.003
+  }
+}

@@ -117,13 +117,15 @@ def hint(problem_dir: Path, spec: str, src: str, result: GradeResult, feedback: 
     solution = solution_source(problem_dir)
     messages = build_messages(spec, src, result, feedback, solution, level, lang)
     out = {"level": level, "model": model, "lang": lang, "root_cause_line": None, "leak_retry": False,
-           "fallback": None, "tokens": 0, "latency_s": 0.0}
+           "fallback": None, "tokens": 0, "prompt_tokens": 0, "completion_tokens": 0, "latency_s": 0.0}
     t0 = time.time()
     try:
         reasons = []
         for attempt in range(2):
             text, usage = llm.chat(model, messages, temperature=0.2, max_tokens=MAX_TOKENS)
             out["tokens"] += usage.get("total_tokens") or 0
+            out["prompt_tokens"] += usage.get("prompt_tokens") or 0
+            out["completion_tokens"] += usage.get("completion_tokens") or 0
             text_hint, line = parse(text)
             text_hint = text_hint[:MAX_HINT_CHARS]
             if not text_hint:
