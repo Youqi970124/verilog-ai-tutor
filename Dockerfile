@@ -1,16 +1,18 @@
-# Wire-to-Adder web app. Ubuntu 24.04 ships Icarus Verilog 12 (required by VerilogEval) and Yosys.
+# Wire-to-Adder web app. Ubuntu 24.04 ships Icarus Verilog 12, the version VerilogEval requires.
+# Yosys is only needed for authoring and mutation testing, not for serving, so it is left out.
 FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 RUN apt-get update \
- && apt-get install -y --no-install-recommends python3 python3-venv iverilog yosys \
+ && apt-get install -y --no-install-recommends python3 python3-venv iverilog \
  && rm -rf /var/lib/apt/lists/*
 RUN python3 -m venv /opt/venv \
  && /opt/venv/bin/pip install --no-cache-dir "fastapi>=0.110" "uvicorn>=0.29" "openai>=1.40"
 ENV PATH=/opt/venv/bin:$PATH
 
 # Learner code is compiled and simulated in this container: run as an unprivileged user.
-RUN useradd --create-home --uid 10001 app
+# uid 1000 matches what Hugging Face Spaces uses at runtime.
+RUN userdel -r ubuntu 2>/dev/null || true; useradd --create-home --uid 1000 app
 WORKDIR /app
 COPY --chown=app:app w2a w2a
 COPY --chown=app:app web web
