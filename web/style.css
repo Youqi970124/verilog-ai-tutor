@@ -225,8 +225,6 @@ pre {
 
 /* AI coach */
 .ask { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; }
-.ask-lang { font-size: 0.82rem; color: var(--ink-2); display: inline-flex; gap: 0.4rem; align-items: center; }
-.ask-lang select { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 0.2rem 0.4rem; }
 .ask-note { font-size: 0.8rem; color: var(--ink-2); flex-basis: 100%; }
 .hint.coach { border-color: color-mix(in srgb, var(--accent) 45%, var(--rule)); }
 .hint .badge { margin-left: auto; font: 0.7rem var(--font-mono); color: var(--ink-2); font-weight: 400; }

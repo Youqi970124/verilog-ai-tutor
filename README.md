@@ -4,7 +4,7 @@ A Verilog coaching agent that takes a complete beginner through the first 28 [HD
 
 Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering track.
 
-> **Status: work in progress.** All 28 problems are playable. The 9 Modules problems were written by the authoring agent with Nemotron 3 Ultra and verified by tools. The coach asks Nemotron 3 Ultra for hints in English or Traditional Chinese. Not done yet: evaluation numbers for the coach, public deployment.
+> **Status: work in progress.** All 28 problems are playable. The 9 Modules problems were written by the authoring agent with Nemotron 3 Ultra and verified by tools. The coach asks Nemotron 3 Ultra for hints. Not done yet: evaluation numbers for the coach, public deployment.
 
 ## How it works
 
@@ -23,7 +23,7 @@ Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering
 - **Grader.** Compiles and simulates with Icarus Verilog 12 using VerilogEval's flags and failure categories. Reads the first mismatch straight from the VCD: the exact inputs, the expected and the actual outputs.
 - **Safety.** Learner code runs on the server, so system tasks, `include, `force` and references into the testbench are rejected before compiling. Simulation has CPU, memory, file-size and time limits.
 - **Coach, rule layer.** L0 concept note, L1 counterexample, L2 the lines that drive the wrong output (traced back through internal wires), L3 a structural hint written at authoring time. Compile errors get a plain explanation with the line.
-- **Coach, model layer.** "Ask the coach" sends Nemotron 3 Ultra the problem, the learner's numbered code, the simulator's findings, the candidate lines and a hidden reference solution. It answers at the next hint level (L0 concept, L1 trace the wrong sample, L2 the line and what it does, L3 the change in words) in English or Traditional Chinese, and names the line it blames.
+- **Coach, model layer.** "Ask the coach" sends Nemotron 3 Ultra the problem, the learner's numbered code, the simulator's findings, the candidate lines and a hidden reference solution. It answers at the next hint level (L0 concept, L1 trace the wrong sample, L2 the line and what it does, L3 the change in words) and names the line it blames.
 - **Leak check.** Every model-written hint is compared with the reference statements the learner is missing before anyone sees it. Naming an operator is fine; writing the fixed line is not. A leaking or cut-off answer goes back to the model once; if it fails again, the learner gets the rule layer's hint. Answers are cached, rate limited per IP and capped per day to protect the credit balance.
 - **Authoring agent.** The model writes the problem text, the provided modules, a behavioural reference, a learner-style solution, directed vectors and hints. Tools decide whether it is right: the testbench is generated from the interface, the solution must pass and use the required submodules, and every beginner-style mutant must be caught or proven equivalent by Yosys. Failures go back to the model.
 - **Web app.** Stage map, editor, waveform with dec/hex/bin, hint ladder. Progress stays in the browser.

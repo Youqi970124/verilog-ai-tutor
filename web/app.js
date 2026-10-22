@@ -14,7 +14,6 @@ const state = {
   progress: store.get("w2a-progress", { problems: {}, concepts: {} }),
   explore: store.get("w2a-explore", false),
   radix: store.get("w2a-radix", "dec"),
-  lang: store.get("w2a-lang", "en"),
   coachEnabled: false,
   coachModel: "",
   lastCode: "",
@@ -270,7 +269,7 @@ async function askCoach() {
   $("ask-btn").disabled = true;
   $("ask-btn").textContent = "Thinking…";
   try {
-    const r = await api("/api/coach", { slug: state.slug, code: state.lastCode, level, lang: state.lang });
+    const r = await api("/api/coach", { slug: state.slug, code: state.lastCode, level });
     state.hintLevel = Math.max(state.hintLevel, level);
     const meta = [r.model ? r.model.replace("nvidia/", "") : "built-in", `L${r.level}`,
       r.latency_s != null ? `${r.latency_s} s` : "", r.cached ? "cached" : "", r.model ? "leak-checked" : ""].filter(Boolean).join(" · ");
@@ -358,8 +357,6 @@ async function boot() {
     if (state.lastWave) renderWave(...state.lastWave);
   }));
   $("ask-btn").addEventListener("click", askCoach);
-  $("ask-lang").value = state.lang;
-  $("ask-lang").addEventListener("change", (e) => { state.lang = e.target.value; store.set("w2a-lang", state.lang); });
   api("/api/coach/status").then((s) => {
     state.coachEnabled = s.enabled;
     state.coachModel = s.model;
