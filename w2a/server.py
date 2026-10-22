@@ -27,7 +27,7 @@ CURRICULUM = json.loads((ROOT / "curriculum" / "curriculum.json").read_text())
 CONCEPTS = json.loads((ROOT / "curriculum" / "concepts.json").read_text())["concepts"]
 GRADES_PER_MINUTE = 30
 COACH_PER_MINUTE = int(os.environ.get("W2A_COACH_PER_MINUTE", "10"))
-COACH_PER_DAY = int(os.environ.get("W2A_COACH_PER_DAY", "200"))       # about $0.6 a day at most with Ultra
+COACH_PER_DAY = int(os.environ.get("W2A_COACH_PER_DAY", "50"))        # about $0.17 a day at most with Ultra
 COACH_MODEL = os.environ.get("W2A_COACH_MODEL", tutor.DEFAULT_MODEL)
 COACH_CACHE_SIZE = 2000
 
