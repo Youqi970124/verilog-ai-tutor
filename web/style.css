@@ -223,6 +223,15 @@ pre {
 .lines .why { display: block; font-family: var(--font-body); font-size: 0.75rem; color: var(--ink-2); white-space: normal; }
 .empty { color: var(--ink-2); font-size: 0.88rem; }
 
+/* AI coach */
+.ask { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; }
+.ask-lang { font-size: 0.82rem; color: var(--ink-2); display: inline-flex; gap: 0.4rem; align-items: center; }
+.ask-lang select { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 0.2rem 0.4rem; }
+.ask-note { font-size: 0.8rem; color: var(--ink-2); flex-basis: 100%; }
+.hint.coach { border-color: color-mix(in srgb, var(--accent) 45%, var(--rule)); }
+.hint .badge { margin-left: auto; font: 0.7rem var(--font-mono); color: var(--ink-2); font-weight: 400; }
+.hint .fallback { font-size: 0.78rem; color: var(--signal); }
+
 @media (prefers-reduced-motion: no-preference) {
   .result:not([hidden]) { animation: rise 160ms ease-out; }
   @keyframes rise { from { transform: translateY(4px); opacity: 0.6; } to { transform: none; opacity: 1; } }

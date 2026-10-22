@@ -4,7 +4,7 @@ A Verilog coaching agent that takes a complete beginner through the first 28 [HD
 
 Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering track.
 
-> **Status: work in progress.** All 28 problems are playable. The 9 Modules problems were written by the authoring agent with Nemotron 3 Ultra and verified by tools. Model-written hints in the coach are not connected yet.
+> **Status: work in progress.** All 28 problems are playable. The 9 Modules problems were written by the authoring agent with Nemotron 3 Ultra and verified by tools. The coach asks Nemotron 3 Ultra for hints in English or Traditional Chinese. Not done yet: evaluation numbers for the coach, public deployment.
 
 ## How it works
 
@@ -23,7 +23,8 @@ Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering
 - **Grader.** Compiles and simulates with Icarus Verilog 12 using VerilogEval's flags and failure categories. Reads the first mismatch straight from the VCD: the exact inputs, the expected and the actual outputs.
 - **Safety.** Learner code runs on the server, so system tasks, `include, `force` and references into the testbench are rejected before compiling. Simulation has CPU, memory, file-size and time limits.
 - **Coach, rule layer.** L0 concept note, L1 counterexample, L2 the lines that drive the wrong output (traced back through internal wires), L3 a structural hint written at authoring time. Compile errors get a plain explanation with the line.
-- **Leak check.** Before a model-written hint reaches the learner, it is compared with the reference statements the learner is missing. Naming an operator is fine; writing the fixed line is not.
+- **Coach, model layer.** "Ask the coach" sends Nemotron 3 Ultra the problem, the learner's numbered code, the simulator's findings, the candidate lines and a hidden reference solution. It answers at the next hint level (L0 concept, L1 trace the wrong sample, L2 the line and what it does, L3 the change in words) in English or Traditional Chinese, and names the line it blames.
+- **Leak check.** Every model-written hint is compared with the reference statements the learner is missing before anyone sees it. Naming an operator is fine; writing the fixed line is not. A leaking or cut-off answer goes back to the model once; if it fails again, the learner gets the rule layer's hint. Answers are cached, rate limited per IP and capped per day to protect the credit balance.
 - **Authoring agent.** The model writes the problem text, the provided modules, a behavioural reference, a learner-style solution, directed vectors and hints. Tools decide whether it is right: the testbench is generated from the interface, the solution must pass and use the required submodules, and every beginner-style mutant must be caught or proven equivalent by Yosys. Failures go back to the model.
 - **Web app.** Stage map, editor, waveform with dec/hex/bin, hint ladder. Progress stays in the browser.
 
@@ -54,6 +55,8 @@ Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering
 | Nemotron 3 Super | 17/19 | 2.4 s | 12k |
 
 Temperature 0 was not deterministic: one Super failure passed on a rerun. That is why every model output goes through the simulator before anyone sees it.
+
+**Coach spot check** (one question, reasoning on and off): "a 32-bit `b` XORed with a 1-bit `sub`, what goes wrong?" With reasoning off, all three models answered wrongly (for example "inverts all 32 bits"). With reasoning on, Ultra was right in 1.9 s, Super right in 5.3 s, and Lightning right but slow (94 s at the time). The coach therefore uses Ultra with reasoning on. On eight buggy submissions Ultra blamed the injected line every time, with no leaks, at 1 to 10 s and about 1k to 2.5k tokens per hint (about $0.005). One reply was cut off by a 2,048-token cap; the cap is now 4,096 and cut-off replies are retried. A full evaluation over the 173 buggy submissions is next.
 
 ## Setup
 
@@ -101,11 +104,11 @@ python scripts/import_verilogeval.py ../third_party/verilog-eval
 ```
 curriculum/   curriculum.json (28 problems), outlines.json (authoring inputs), concepts.json (L0 notes)
 problems/     one directory per problem: prompt.txt, ref.sv, test.sv, and for authored ones given.sv, solution.sv, problem.json
-w2a/          grader, safety, vcd, tbgen, mutate, equiv, authoring, coach, leak, mastery, llm, server
+w2a/          grader, safety, vcd, tbgen, mutate, equiv, authoring, coach, tutor, leak, mastery, llm, server
 web/          index.html, app.js, style.css
 scripts/      import_verilogeval.py, author.py, mutation_report.py, model_spike.py
 eval/         mutation report and buggy submissions for evaluating the coach
-tests/        73 tests
+tests/        86 tests
 ```
 
 ## Credits

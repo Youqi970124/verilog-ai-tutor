@@ -27,13 +27,13 @@ def api_key() -> str | None:
 
 
 class TokenFactory:
-    def __init__(self, base_url: str = BASE_URL):
+    def __init__(self, base_url: str = BASE_URL, *, timeout: float = 120.0, max_retries: int = 2):
         from openai import OpenAI
 
         key = api_key()
         if not key:
             raise RuntimeError("Set NEBIUS_API_KEY, or put NEBIUS_API_KEY=... in .env at the repo root.")
-        self.client = OpenAI(base_url=base_url, api_key=key)
+        self.client = OpenAI(base_url=base_url, api_key=key, timeout=timeout, max_retries=max_retries)
 
     def chat(self, model: str, messages: list[dict], **kw) -> tuple[str, dict]:
         t0 = time.time()

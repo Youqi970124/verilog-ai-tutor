@@ -14,6 +14,10 @@ const state = {
   progress: store.get("w2a-progress", { problems: {}, concepts: {} }),
   explore: store.get("w2a-explore", false),
   radix: store.get("w2a-radix", "dec"),
+  lang: store.get("w2a-lang", "en"),
+  coachEnabled: false,
+  coachModel: "",
+  lastCode: "",
   lastWave: null,
   slug: null,
   problem: null,
@@ -109,6 +113,7 @@ function renderSpec(text) {
 async function openProblem(slug) {
   state.slug = slug;
   state.hintLevel = -1;
+  $("coach-body").innerHTML = "";
   location.hash = slug;
   $("result").hidden = true;
   clearFlags();
@@ -215,12 +220,16 @@ function hintAvailable(h, key) {
   return Array.isArray(v) ? v.length > 0 : Boolean(v);
 }
 
+function nextCoachLevel() { return Math.min(3, state.hintLevel + 1); }
+
 function renderLadder() {
   const fb = state.lastFeedback;
   const h = fb.hints;
   const solved = fb.status === "pass";
   $("ladder").hidden = solved;
   if (solved) return;
+  $("ask").hidden = !state.coachEnabled;
+  $("ask-btn").textContent = `Ask the coach (L${Math.max(0, nextCoachLevel())})`;
   $("ladder-buttons").innerHTML = LEVELS.map(({ lv, key, name }) => {
     const ok = hintAvailable(h, key);
     const open = lv <= state.hintLevel;
@@ -250,9 +259,44 @@ function renderLadder() {
   $("hint-body").querySelectorAll("[data-line]").forEach((b) => b.addEventListener("click", () => flagLine(+b.dataset.line)));
 }
 
+const FALLBACK = {
+  leak: "The coach's answer gave too much away, so here is the built-in hint instead.",
+  error: "The coach did not answer in time, so here is the built-in hint instead.",
+  daily_limit: "The coach has reached today's limit, so here is the built-in hint instead.",
+};
+
+async function askCoach() {
+  const level = Math.max(0, nextCoachLevel());
+  $("ask-btn").disabled = true;
+  $("ask-btn").textContent = "Thinking…";
+  try {
+    const r = await api("/api/coach", { slug: state.slug, code: state.lastCode, level, lang: state.lang });
+    state.hintLevel = Math.max(state.hintLevel, level);
+    const meta = [r.model ? r.model.replace("nvidia/", "") : "built-in", `L${r.level}`,
+      r.latency_s != null ? `${r.latency_s} s` : "", r.cached ? "cached" : "", r.model ? "leak-checked" : ""].filter(Boolean).join(" · ");
+    const line = r.root_cause_line && r.level >= 2 ? `<p><button type="button" class="ghost" data-line="${r.root_cause_line}">Show line ${r.root_cause_line}</button></p>` : "";
+    const fall = r.fallback && FALLBACK[r.fallback] ? `<p class="fallback">${esc(FALLBACK[r.fallback])}</p>` : "";
+    const card = document.createElement("div");
+    card.className = "hint coach";
+    card.innerHTML = `<h3><span class="lv">AI</span>Coach<span class="badge">${esc(meta)}</span></h3>${fall}<p>${inline(r.hint)}</p>${line}`;
+    card.querySelectorAll("[data-line]").forEach((b) => b.addEventListener("click", () => flagLine(+b.dataset.line)));
+    $("coach-body").prepend(card);
+  } catch (err) {
+    const card = document.createElement("div");
+    card.className = "hint coach";
+    card.innerHTML = `<p class="fallback">${esc(err.message)}</p>`;
+    $("coach-body").prepend(card);
+  } finally {
+    $("ask-btn").disabled = false;
+    renderLadder();
+  }
+}
+
 async function submit() {
   if (!state.problem?.available) return;
   const code = getCode();
+  state.lastCode = code;
+  $("coach-body").innerHTML = "";
   store.set(`w2a-code-${state.slug}`, code);
   $("submit").disabled = true;
   $("busy").hidden = false;
@@ -313,6 +357,14 @@ async function boot() {
     store.set("w2a-radix", state.radix);
     if (state.lastWave) renderWave(...state.lastWave);
   }));
+  $("ask-btn").addEventListener("click", askCoach);
+  $("ask-lang").value = state.lang;
+  $("ask-lang").addEventListener("change", (e) => { state.lang = e.target.value; store.set("w2a-lang", state.lang); });
+  api("/api/coach/status").then((s) => {
+    state.coachEnabled = s.enabled;
+    state.coachModel = s.model;
+    if (state.lastFeedback) renderLadder();  // results may already be on screen
+  }).catch(() => {});
   $("explore").checked = state.explore;
   $("explore").addEventListener("change", (e) => { state.explore = e.target.checked; store.set("w2a-explore", state.explore); renderMap(); });
 
