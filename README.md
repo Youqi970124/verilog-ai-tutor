@@ -6,6 +6,8 @@ Built for the Nebius × NVIDIA Global AI Hackathon, Coding & Agentic Engineering
 
 **Live demo:** https://verilog-ai-tutor.onrender.com (free instance: after 15 idle minutes the first load takes up to a minute)
 
+**Demo video (2.5 min):** https://youtu.be/5nN6dzE9evE
+
 All 28 problems are playable. The 9 Modules problems were written by the authoring agent with Nemotron 3 Ultra and verified by tools. The coach asks Nemotron 3 Ultra for hints and has been evaluated on 173 buggy submissions.
 
 ## How it works
