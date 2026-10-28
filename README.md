@@ -55,7 +55,7 @@ Development and evaluation together have cost about $1.50 so far. Other Nebius s
 
 ## Results so far
 
-**Authoring agent** (`python scripts/author.py`, Nemotron 3 Ultra): all 9 Modules problems verified in 17 rounds, 60k tokens, about $0.15. Eight needed feedback first: old-style port headers, a procedural assignment to a wire, a syntax error in a provided module, and one learner solution that disagreed with the reference until the simulator's counterexample went back to the model. A first review pass then trimmed three specs that gave away the wiring and added a missing port mapping to one; see `review_notes` in each `problem.json`. Team sign-off is pending.
+**Authoring agent** (`python scripts/author.py`, Nemotron 3 Ultra): all 9 Modules problems verified in 17 rounds, 60k tokens, about $0.15. Seven needed feedback first: old-style port headers, a procedural assignment to a wire, a syntax error in a provided module, and one learner solution that disagreed with the reference until the simulator's counterexample went back to the model. A first review pass then trimmed three specs that gave away the wiring and added a missing port mapping to one; see `review_notes` in each `problem.json`.
 
 | Problem | Rounds | Tokens | First failure |
 |---|---|---|---|
